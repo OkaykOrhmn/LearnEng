@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.rhmn.learneng.view.components.PrimaryToolBar
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleText="روز اول"
+        app:backEnabled="true"
+
+        />
+
+    <TextView
+        android:id="@+id/tvHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/action_bar"
+        app:layout_constraintBottom_toTopOf="@id/main_container"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="&quot;Every word you learn is a step closer to fluency.&quot;\n\n&quot;هر کلمه‌ای که یاد می‌گیری، یک قدم به روان صحبت کردن نزدیک‌تری.&quot;"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/blackLighter"
+        android:layout_marginHorizontal="36dp"
+        android:layout_marginTop="46dp"
+        />
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/main_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/tvHint"
+    android:paddingHorizontal="46dp"
+    android:layout_marginTop="46dp"
+
+    >
+
+    <LinearLayout
+
+        android:id="@+id/day_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        >
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/vocabulary_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/secondary"
+            android:text="vocabulary"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:padding="12dp"
+            />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pronounciation_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/secondary"
+            android:text="Pronounciation"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:padding="12dp"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/dictions_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/secondary"
+            android:text="Dictation"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:padding="12dp"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+
+        android:id="@+id/day_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/grammar_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/secondary"
+            android:text="Grammar"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:padding="12dp"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/grammar_quiz_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/secondary"
+            android:text="Grammar Quiz"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:padding="12dp"
+            />
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/reading_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/secondary"
+            android:text="Reading"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:padding="12dp"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+
+        android:id="@+id/day_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/listening_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/secondary"
+            android:text="Listening"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:padding="12dp"/>
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/fnl_quiz_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/secondary"
+            android:text="Final Quiz"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            android:padding="12dp"/>
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

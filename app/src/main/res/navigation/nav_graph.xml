@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <action
+        android:id="@+id/action_to_quizFinishDialog"
+        app:destination="@id/quizFinishDialog" />
+
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.rhmn.learneng.view.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_dayOneFragment"
+            app:destination="@id/dayFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/dayFragment"
+        android:name="com.rhmn.learneng.view.fragments.DayFragment"
+        android:label="fragment_day"
+        tools:layout="@layout/fragment_day">
+        <argument
+            android:name="dayId"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="dayType"
+            android:defaultValue="DAY_1"
+            app:argType="com.rhmn.learneng.data.model.DayType"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/action_day_to_pronounciationFragment"
+            app:destination="@id/pronounciationFragment" />
+        <action
+            android:id="@+id/action_day_to_wordFragment"
+            app:destination="@id/wordFragment" />
+        <action
+            android:id="@+id/action_day_to_dictionsFragment"
+            app:destination="@id/dictionsFragment" />
+        <action
+            android:id="@+id/action_day_to_quizFragment"
+            app:destination="@id/quizFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/wordFragment"
+        android:name="com.rhmn.learneng.view.fragments.WordFragment"
+        android:label="fragment_word"
+        tools:layout="@layout/fragment_word" />
+    <fragment
+        android:id="@+id/pronounciationFragment"
+        android:name="com.rhmn.learneng.view.fragments.PronounciationFragment"
+        android:label="PronounciationFragment" />
+    <fragment
+        android:id="@+id/dictionsFragment"
+        android:name="com.rhmn.learneng.view.fragments.DictionsFragment"
+        android:label="DictionsFragment" />
+
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.rhmn.learneng.view.fragments.QuizFragment"
+        android:label="QuizFragment">
+        <argument
+            android:name="quizType"
+            android:defaultValue="GRAMMAR"
+            app:argType="com.rhmn.learneng.data.model.QuizType"
+            app:nullable="false" />
+    </fragment>
+    <dialog
+        android:id="@+id/quizFinishDialog"
+        android:name="com.rhmn.learneng.view.QuizFinishDialog"
+        android:label="QuizFinishDialog" >
+        <argument
+            android:name="quizType"
+            android:defaultValue="GRAMMAR"
+            app:argType="com.rhmn.learneng.data.model.QuizType"
+            app:nullable="false" />
+
+        <argument
+            android:name="dayId"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+    </dialog>
+</navigation>

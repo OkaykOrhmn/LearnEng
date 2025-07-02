@@ -1,0 +1,1528 @@
+[
+  {
+    "id": 0,
+    "vocabulary": [
+      {
+        "id": 0,
+        "sentence": "name",
+        "translation": "نام",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "What’s your name?",
+            "translation": "نام تو چیست؟",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "sentence": "age",
+        "translation": "سن",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "at the age of 17",
+            "translation": "در سن 17 سالگی",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sentence": "city",
+        "translation": "شهر",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "Shiraz is my city",
+            "translation": "شیراز شهر من است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sentence": "country",
+        "translation": "کشور",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "Iran is my country",
+            "translation": "ایران کشور من است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sentence": "language",
+        "translation": "زبان",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "English is an easy language",
+            "translation": "انگلیسی یک زبان آسان است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "sentence": "mother",
+        "translation": "مادر",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "My mother is very kind.",
+            "translation": "مادر من خیلی مهربان است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "sentence": "father",
+        "translation": "پدر",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "His father is a doctor.",
+            "translation": "پدر او پزشک است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "sentence": "sister",
+        "translation": "خواهر",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "I have two sisters.",
+            "translation": "من دو خواهر دارم",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "sentence": "brother",
+        "translation": "برادر",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "He is my brother.",
+            "translation": "او برادر من است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "sentence": "parents",
+        "translation": "والدین",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "They are my parents.",
+            "translation": "آن‌ها والدین من هستند",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "sentence": "mom",
+        "translation": "مامان",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "My mom is nice.",
+            "translation": "مامان من مهربان است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "sentence": "dad",
+        "translation": "بابا",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "My dad is tall.",
+            "translation": "بابای من قدبلند است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "sentence": "grandmother",
+        "translation": "مادربزرگ",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "My grandmother lives in Mashhad.",
+            "translation": "مادربزرگ من در مشهد زندگی می‌کند",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "sentence": "grandfather",
+        "translation": "پدربزرگ",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "He is my grandfather.",
+            "translation": "او پدربزرگ من است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "sentence": "grandma/granny",
+        "translation": "مامان بزرگ",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "my grandma is pretty.",
+            "translation": "مامان بزرگ من زیباست",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "sentence": "grandpa",
+        "translation": "بابابزرگ",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "my grandpa is old",
+            "translation": "بابابزرگ من پیر است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 16,
+        "sentence": "aunt",
+        "translation": "عمه / خاله",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "She is my aunt.",
+            "translation": "او عمه‌ی من است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 17,
+        "sentence": "uncle",
+        "translation": "عمو / دایی",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "My uncle works in a bank.",
+            "translation": "عموی من در یک بانک کار می‌کند",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "sentence": "cousin",
+        "translation": "پسر یا دختر عمو/دایی/عمه/خاله",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "She is my cousin.",
+            "translation": "او دخترعمه/دخترخاله‌ی من است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 19,
+        "sentence": "friend",
+        "translation": "دوست",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "This is my friend.",
+            "translation": "این دوست من است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 20,
+        "sentence": "classmate",
+        "translation": "هم‌کلاسی",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "My classmate is from Turkey.",
+            "translation": "هم‌کلاسی من اهل ترکیه است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 21,
+        "sentence": "neighbor",
+        "translation": "همسایه",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "Our neighbor is very friendly.",
+            "translation": "همسایه‌ی ما خیلی صمیمی است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 22,
+        "sentence": "baby",
+        "translation": "نوزاد",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "The baby is crying.",
+            "translation": "نوزاد دارد گریه می‌کند",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 23,
+        "sentence": "child",
+        "translation": "کودک",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "That child is 5 years old.",
+            "translation": "آن کودک پنج سال دارد",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 24,
+        "sentence": "adult",
+        "translation": "بزرگسال",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "He is an adult, not a child.",
+            "translation": "او بزرگسال است، نه کودک",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 25,
+        "sentence": "man",
+        "translation": "مرد",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "He is a tall man.",
+            "translation": "او یک مرد قدبلند است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 26,
+        "sentence": "pet",
+        "translation": "حیوان خانگی",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "my pet is white.",
+            "translation": "حیوان خانگی من سفید است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      }
+    ],
+    "dictation": [
+      "granny",
+      "woman",
+      "adult",
+      "age",
+      "country",
+      "brother",
+      "aunt",
+      "cousin",
+      "classmate",
+      "language"
+    ],
+    "pronunciation": [
+      {
+        "id": 0,
+        "sentence": "Language",
+        "translation": "زبان",
+        "voice": null,
+        "examples": null
+      },
+      {
+        "id": 1,
+        "sentence": "Country",
+        "translation": "کشور",
+        "voice": null,
+        "examples": null
+      },
+      {
+        "id": 2,
+        "sentence": "He is our neighbor",
+        "translation": "او همسایه‌ی ما است",
+        "voice": null,
+        "examples": null
+      },
+      {
+        "id": 3,
+        "sentence": "Her father is nice",
+        "translation": "پدر او مهربان است",
+        "voice": null,
+        "examples": null
+      },
+      {
+        "id": 4,
+        "sentence": "See that woman!",
+        "translation": "آن زن را ببین",
+        "voice": null,
+        "examples": null
+      },
+      {
+        "id": 5,
+        "sentence": "The child is nice",
+        "translation": "بچه مهربان است",
+        "voice": null,
+        "examples": null
+      }
+    ],
+    "grammarQuiz": [
+      {
+        "id": 0,
+        "question": "______ is my sister. Her name is Sara.",
+        "answer": "c) She",
+        "options": [
+          "a) He",
+          "b) It",
+          "c) She",
+          "d) We"
+        ]
+      },
+      {
+        "id": 1,
+        "question": "My name is Ali. ______ am from Iran.",
+        "answer": "b) I",
+        "options": [
+          "a) He",
+          "b) I",
+          "c) We",
+          "d) They"
+        ]
+      },
+      {
+        "id": 2,
+        "question": "Reza and I are friends. ______ play football every weekend.",
+        "answer": "a) We",
+        "options": [
+          "a) We",
+          "b) They",
+          "c) You",
+          "d) He"
+        ]
+      },
+      {
+        "id": 3,
+        "question": "This is my cat. ______ is very cute.",
+        "answer": "c) It",
+        "options": [
+          "a) He",
+          "b) They",
+          "c) It",
+          "d) You"
+        ]
+      },
+      {
+        "id": 4,
+        "question": "Mary and Tina are in class. ______ are good students.",
+        "answer": "d) They",
+        "options": [
+          "a) She",
+          "b) It",
+          "c) We",
+          "d) They"
+        ]
+      },
+      {
+        "id": 5,
+        "question": "This is my brother. ______ is 10 years old.",
+        "answer": "a) He",
+        "options": [
+          "a) He",
+          "b) She",
+          "c) They",
+          "d) We"
+        ]
+      },
+      {
+        "id": 6,
+        "question": "Ali is my brother. ______ is 12 years old.",
+        "answer": "b) He",
+        "options": [
+          "a) She",
+          "b) He",
+          "c) It",
+          "d) We"
+        ]
+      },
+      {
+        "id": 7,
+        "question": "This is my cat. ______ is very small and cute.",
+        "answer": "a) It",
+        "options": [
+          "a) It",
+          "b) He",
+          "c) They",
+          "d) You"
+        ]
+      },
+      {
+        "id": 8,
+        "question": "My name is Lila. ______ am from Iran.",
+        "answer": "c) I",
+        "options": [
+          "a) He",
+          "b) She",
+          "c) I",
+          "d) You"
+        ]
+      },
+      {
+        "id": 9,
+        "question": "My mother and father are at home. ______ are cooking.",
+        "answer": "c) They",
+        "options": [
+          "a) It",
+          "b) He",
+          "c) They",
+          "d) We"
+        ]
+      },
+      {
+        "id": 10,
+        "question": "My aunt is a doctor. ______ works in a hospital.",
+        "answer": "d) She",
+        "options": [
+          "a) He",
+          "b) They",
+          "c) It",
+          "d) She"
+        ]
+      }
+    ],
+    "reading": {
+      "id": 0,
+      "title": "My Family",
+      "text": "Hello! My name is Nima. I am 10 years old. I live in Tehran. I have a big family. This is my father. And that is my mother. She teaches English. I have one brother and one sister. My sister’s name is Leila. She is 8 years old. My brother’s name is Reza. He is 12. We have a cat. It is white and small. We love it! My grandparents live in Shiraz. They are very kind. We visit them every summer.",
+      "translation": "سلام! اسم من نیما است. من ده سال دارم. من در تهران زندگی می‌کنم. من خانواده‌ی بزرگی دارم. این پدر من است و آن مادر من است. او انگلیسی تدریس می‌کند. من یک برادر و یک خواهر دارم. اسم خواهر من لیلا است. او 8 سال دارد. نام برادر من رضا است. او 12 سال دارد. ما یک گربه داریم. او سفید و کوچک است. ما خیلی آن را دوست داریم. مادربزرگ و پدربزرگ من در شیراز زندگی می‌کنند. آنها خیلی مهربان هستند. ما هر تابستان آنها را می‌بینیم",
+      "questions": [
+        {
+          "id": 0,
+          "question": "How old is Nima?",
+          "answer": "b) 10",
+          "options": [
+            "a) 8",
+            "b) 10",
+            "c) 12",
+            "d) 11"
+          ]
+        },
+        {
+          "id": 1,
+          "question": "What color is their cat?",
+          "answer": "b) White",
+          "options": [
+            "a) Black",
+            "b) White",
+            "c) Brown",
+            "d) Gray"
+          ]
+        },
+        {
+          "id": 2,
+          "question": "Where do Nima’s grandparents live?",
+          "answer": "c) Shiraz",
+          "options": [
+            "a) Mashhad",
+            "b) Tehran",
+            "c) Shiraz",
+            "d) Isfahan"
+          ]
+        },
+        {
+          "id": 3,
+          "question": "Who is 12 years old?",
+          "answer": "c) His brother",
+          "options": [
+            "a) Nima",
+            "b) His sister",
+            "c) His brother",
+            "d) His cousin"
+          ]
+        }
+      ]
+    },
+    "listening": {
+      "title": "Introducing Myself and My Family",
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Hello! What’s your name?",
+          "translation": "سلام اسم تو چیست؟"
+        },
+        {
+          "speaker": "B",
+          "text": "Hi! My name is Sara.",
+          "translation": "سلام اسم من ساراست"
+        },
+        {
+          "speaker": "A",
+          "text": "Nice to meet you, Sara. How old are you?",
+          "translation": "از دیدنت خوشبختم سارا. تو چند سال داری؟"
+        },
+        {
+          "speaker": "B",
+          "text": "I’m 11 years old.",
+          "translation": "من یازده ساله هستم"
+        },
+        {
+          "speaker": "A",
+          "text": "Tell me about your family.",
+          "translation": "به من در مورد خانواده‌ات بگو"
+        },
+        {
+          "speaker": "B",
+          "text": "Sure! I have a small family. My father is a teacher. My mother is a nurse. My parents are so nice.",
+          "translation": "حتما! من خانواده‌ی کوچکی دارم. پدرم معلم است. مادرم پرستار است. والدین من خیلی مهربانند"
+        },
+        {
+          "speaker": "A",
+          "text": "Do you have any brothers or sisters?",
+          "translation": "آیا تو خواهر یا برادری داری؟"
+        },
+        {
+          "speaker": "B",
+          "text": "Yes! I have one brother. His name is Ali. He is 14 years old.",
+          "translation": "بله! من یک برادر دارم. اسم او علی است. او 14 سال دارد"
+        },
+        {
+          "speaker": "A",
+          "text": "Do you have a pet?",
+          "translation": "آیا حیوان خانگی داری؟"
+        },
+        {
+          "speaker": "B",
+          "text": "Yes! We have a dog. It is black and white.",
+          "translation": "بله! ما یک سگ داریم. آن سیاه و سفید است"
+        },
+        {
+          "speaker": "A",
+          "text": "That’s nice!",
+          "translation": "این عالیه!"
+        },
+        {
+          "speaker": "B",
+          "text": "Thank you!",
+          "translation": "ممنونم"
+        }
+      ]
+    },
+    "quiz": [
+      {
+        "id": 0,
+        "question": "My ______ is my father’s brother.",
+        "answer": "c) uncle",
+        "options": [
+          "a) aunt",
+          "b) cousin",
+          "c) uncle",
+          "d) sister"
+        ]
+      },
+      {
+        "id": 1,
+        "question": "My ______ is 80 years old. She lives in Mashhad.",
+        "answer": "a) grandmother",
+        "options": [
+          "a) grandmother",
+          "b) brother",
+          "c) mother",
+          "d) classmate"
+        ]
+      },
+      {
+        "id": 2,
+        "question": "The daughter of my grandfather is my ______.",
+        "answer": "c) aunt",
+        "options": [
+          "a) cousin",
+          "b) mother",
+          "c) aunt",
+          "d) sister"
+        ]
+      },
+      {
+        "id": 3,
+        "question": "My uncle’s son is my ______.",
+        "answer": "a) cousin",
+        "options": [
+          "a) cousin",
+          "b) brother",
+          "c) nephew",
+          "d) friend"
+        ]
+      },
+      {
+        "id": 4,
+        "question": "The father of my mother is my ______.",
+        "answer": "a) grandfather",
+        "options": [
+          "a) grandfather",
+          "b) father",
+          "c) uncle",
+          "d) brother"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "vocabulary": [
+      {
+        "id": 0,
+        "sentence": "name",
+        "translation": "نام",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "What’s your name?",
+            "translation": "نام تو چیست؟",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "sentence": "age",
+        "translation": "سن",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "at the age of 17",
+            "translation": "در سن 17 سالگی",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "sentence": "city",
+        "translation": "شهر",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "Shiraz is my city",
+            "translation": "شیراز شهر من است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "sentence": "country",
+        "translation": "کشور",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "Iran is my country",
+            "translation": "ایران کشور من است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "sentence": "language",
+        "translation": "زبان",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "English is an easy language",
+            "translation": "انگلیسی یک زبان آسان است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "sentence": "mother",
+        "translation": "مادر",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "My mother is very kind.",
+            "translation": "مادر من خیلی مهربان است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "sentence": "father",
+        "translation": "پدر",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "His father is a doctor.",
+            "translation": "پدر او پزشک است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "sentence": "sister",
+        "translation": "خواهر",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "I have two sisters.",
+            "translation": "من دو خواهر دارم",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "sentence": "brother",
+        "translation": "برادر",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "He is my brother.",
+            "translation": "او برادر من است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "sentence": "parents",
+        "translation": "والدین",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "They are my parents.",
+            "translation": "آن‌ها والدین من هستند",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "sentence": "mom",
+        "translation": "مامان",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "My mom is nice.",
+            "translation": "مامان من مهربان است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "sentence": "dad",
+        "translation": "بابا",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "My dad is tall.",
+            "translation": "بابای من قدبلند است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "sentence": "grandmother",
+        "translation": "مادربزرگ",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "My grandmother lives in Mashhad.",
+            "translation": "مادربزرگ من در مشهد زندگی می‌کند",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "sentence": "grandfather",
+        "translation": "پدربزرگ",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "He is my grandfather.",
+            "translation": "او پدربزرگ من است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "sentence": "grandma/granny",
+        "translation": "مامان بزرگ",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "my grandma is pretty.",
+            "translation": "مامان بزرگ من زیباست",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "sentence": "grandpa",
+        "translation": "بابابزرگ",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "my grandpa is old",
+            "translation": "بابابزرگ من پیر است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 16,
+        "sentence": "aunt",
+        "translation": "عمه / خاله",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "She is my aunt.",
+            "translation": "او عمه‌ی من است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 17,
+        "sentence": "uncle",
+        "translation": "عمو / دایی",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "My uncle works in a bank.",
+            "translation": "عموی من در یک بانک کار می‌کند",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "sentence": "cousin",
+        "translation": "پسر یا دختر عمو/دایی/عمه/خاله",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "She is my cousin.",
+            "translation": "او دخترعمه/دخترخاله‌ی من است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 19,
+        "sentence": "friend",
+        "translation": "دوست",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "This is my friend.",
+            "translation": "این دوست من است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 20,
+        "sentence": "classmate",
+        "translation": "هم‌کلاسی",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "My classmate is from Turkey.",
+            "translation": "هم‌کلاسی من اهل ترکیه است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 21,
+        "sentence": "neighbor",
+        "translation": "همسایه",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "Our neighbor is very friendly.",
+            "translation": "همسایه‌ی ما خیلی صمیمی است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 22,
+        "sentence": "baby",
+        "translation": "نوزاد",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "The baby is crying.",
+            "translation": "نوزاد دارد گریه می‌کند",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 23,
+        "sentence": "child",
+        "translation": "کودک",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "That child is 5 years old.",
+            "translation": "آن کودک پنج سال دارد",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 24,
+        "sentence": "adult",
+        "translation": "بزرگسال",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "He is an adult, not a child.",
+            "translation": "او بزرگسال است، نه کودک",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 25,
+        "sentence": "man",
+        "translation": "مرد",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "He is a tall man.",
+            "translation": "او یک مرد قدبلند است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      },
+      {
+        "id": 26,
+        "sentence": "pet",
+        "translation": "حیوان خانگی",
+        "voice": null,
+        "examples": [
+          {
+            "id": 0,
+            "sentence": "my pet is white.",
+            "translation": "حیوان خانگی من سفید است",
+            "voice": null,
+            "examples": null
+          }
+        ]
+      }
+    ],
+    "dictation": [
+      "granny",
+      "woman",
+      "adult",
+      "age",
+      "country",
+      "brother",
+      "aunt",
+      "cousin",
+      "classmate",
+      "language"
+    ],
+    "pronunciation": [
+      {
+        "id": 0,
+        "sentence": "Language",
+        "translation": "زبان",
+        "voice": null,
+        "examples": null
+      },
+      {
+        "id": 1,
+        "sentence": "Country",
+        "translation": "کشور",
+        "voice": null,
+        "examples": null
+      },
+      {
+        "id": 2,
+        "sentence": "He is our neighbor",
+        "translation": "او همسایه‌ی ما است",
+        "voice": null,
+        "examples": null
+      },
+      {
+        "id": 3,
+        "sentence": "Her father is nice",
+        "translation": "پدر او مهربان است",
+        "voice": null,
+        "examples": null
+      },
+      {
+        "id": 4,
+        "sentence": "See that woman!",
+        "translation": "آن زن را ببین",
+        "voice": null,
+        "examples": null
+      },
+      {
+        "id": 5,
+        "sentence": "The child is nice",
+        "translation": "بچه مهربان است",
+        "voice": null,
+        "examples": null
+      }
+    ],
+    "grammarQuiz": [
+      {
+        "id": 0,
+        "question": "______ is my sister. Her name is Sara.",
+        "answer": "c) She",
+        "options": [
+          "a) He",
+          "b) It",
+          "c) She",
+          "d) We"
+        ]
+      },
+      {
+        "id": 1,
+        "question": "My name is Ali. ______ am from Iran.",
+        "answer": "b) I",
+        "options": [
+          "a) He",
+          "b) I",
+          "c) We",
+          "d) They"
+        ]
+      },
+      {
+        "id": 2,
+        "question": "Reza and I are friends. ______ play football every weekend.",
+        "answer": "a) We",
+        "options": [
+          "a) We",
+          "b) They",
+          "c) You",
+          "d) He"
+        ]
+      },
+      {
+        "id": 3,
+        "question": "This is my cat. ______ is very cute.",
+        "answer": "c) It",
+        "options": [
+          "a) He",
+          "b) They",
+          "c) It",
+          "d) You"
+        ]
+      },
+      {
+        "id": 4,
+        "question": "Mary and Tina are in class. ______ are good students.",
+        "answer": "d) They",
+        "options": [
+          "a) She",
+          "b) It",
+          "c) We",
+          "d) They"
+        ]
+      },
+      {
+        "id": 5,
+        "question": "This is my brother. ______ is 10 years old.",
+        "answer": "a) He",
+        "options": [
+          "a) He",
+          "b) She",
+          "c) They",
+          "d) We"
+        ]
+      },
+      {
+        "id": 6,
+        "question": "Ali is my brother. ______ is 12 years old.",
+        "answer": "b) He",
+        "options": [
+          "a) She",
+          "b) He",
+          "c) It",
+          "d) We"
+        ]
+      },
+      {
+        "id": 7,
+        "question": "This is my cat. ______ is very small and cute.",
+        "answer": "a) It",
+        "options": [
+          "a) It",
+          "b) He",
+          "c) They",
+          "d) You"
+        ]
+      },
+      {
+        "id": 8,
+        "question": "My name is Lila. ______ am from Iran.",
+        "answer": "c) I",
+        "options": [
+          "a) He",
+          "b) She",
+          "c) I",
+          "d) You"
+        ]
+      },
+      {
+        "id": 9,
+        "question": "My mother and father are at home. ______ are cooking.",
+        "answer": "c) They",
+        "options": [
+          "a) It",
+          "b) He",
+          "c) They",
+          "d) We"
+        ]
+      },
+      {
+        "id": 10,
+        "question": "My aunt is a doctor. ______ works in a hospital.",
+        "answer": "d) She",
+        "options": [
+          "a) He",
+          "b) They",
+          "c) It",
+          "d) She"
+        ]
+      }
+    ],
+    "reading": {
+      "id": 0,
+      "title": "My Family",
+      "text": "Hello! My name is Nima. I am 10 years old. I live in Tehran. I have a big family. This is my father. And that is my mother. She teaches English. I have one brother and one sister. My sister’s name is Leila. She is 8 years old. My brother’s name is Reza. He is 12. We have a cat. It is white and small. We love it! My grandparents live in Shiraz. They are very kind. We visit them every summer.",
+      "translation": "سلام! اسم من نیما است. من ده سال دارم. من در تهران زندگی می‌کنم. من خانواده‌ی بزرگی دارم. این پدر من است و آن مادر من است. او انگلیسی تدریس می‌کند. من یک برادر و یک خواهر دارم. اسم خواهر من لیلا است. او 8 سال دارد. نام برادر من رضا است. او 12 سال دارد. ما یک گربه داریم. او سفید و کوچک است. ما خیلی آن را دوست داریم. مادربزرگ و پدربزرگ من در شیراز زندگی می‌کنند. آنها خیلی مهربان هستند. ما هر تابستان آنها را می‌بینیم",
+      "questions": [
+        {
+          "id": 0,
+          "question": "How old is Nima?",
+          "answer": "b) 10",
+          "options": [
+            "a) 8",
+            "b) 10",
+            "c) 12",
+            "d) 11"
+          ]
+        },
+        {
+          "id": 1,
+          "question": "What color is their cat?",
+          "answer": "b) White",
+          "options": [
+            "a) Black",
+            "b) White",
+            "c) Brown",
+            "d) Gray"
+          ]
+        },
+        {
+          "id": 2,
+          "question": "Where do Nima’s grandparents live?",
+          "answer": "c) Shiraz",
+          "options": [
+            "a) Mashhad",
+            "b) Tehran",
+            "c) Shiraz",
+            "d) Isfahan"
+          ]
+        },
+        {
+          "id": 3,
+          "question": "Who is 12 years old?",
+          "answer": "c) His brother",
+          "options": [
+            "a) Nima",
+            "b) His sister",
+            "c) His brother",
+            "d) His cousin"
+          ]
+        }
+      ]
+    },
+    "listening": {
+      "title": "Introducing Myself and My Family",
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Hello! What’s your name?",
+          "translation": "سلام اسم تو چیست؟"
+        },
+        {
+          "speaker": "B",
+          "text": "Hi! My name is Sara.",
+          "translation": "سلام اسم من ساراست"
+        },
+        {
+          "speaker": "A",
+          "text": "Nice to meet you, Sara. How old are you?",
+          "translation": "از دیدنت خوشبختم سارا. تو چند سال داری؟"
+        },
+        {
+          "speaker": "B",
+          "text": "I’m 11 years old.",
+          "translation": "من یازده ساله هستم"
+        },
+        {
+          "speaker": "A",
+          "text": "Tell me about your family.",
+          "translation": "به من در مورد خانواده‌ات بگو"
+        },
+        {
+          "speaker": "B",
+          "text": "Sure! I have a small family. My father is a teacher. My mother is a nurse. My parents are so nice.",
+          "translation": "حتما! من خانواده‌ی کوچکی دارم. پدرم معلم است. مادرم پرستار است. والدین من خیلی مهربانند"
+        },
+        {
+          "speaker": "A",
+          "text": "Do you have any brothers or sisters?",
+          "translation": "آیا تو خواهر یا برادری داری؟"
+        },
+        {
+          "speaker": "B",
+          "text": "Yes! I have one brother. His name is Ali. He is 14 years old.",
+          "translation": "بله! من یک برادر دارم. اسم او علی است. او 14 سال دارد"
+        },
+        {
+          "speaker": "A",
+          "text": "Do you have a pet?",
+          "translation": "آیا حیوان خانگی داری؟"
+        },
+        {
+          "speaker": "B",
+          "text": "Yes! We have a dog. It is black and white.",
+          "translation": "بله! ما یک سگ داریم. آن سیاه و سفید است"
+        },
+        {
+          "speaker": "A",
+          "text": "That’s nice!",
+          "translation": "این عالیه!"
+        },
+        {
+          "speaker": "B",
+          "text": "Thank you!",
+          "translation": "ممنونم"
+        }
+      ]
+    },
+    "quiz": [
+      {
+        "id": 0,
+        "question": "My ______ is my father’s brother.",
+        "answer": "c) uncle",
+        "options": [
+          "a) aunt",
+          "b) cousin",
+          "c) uncle",
+          "d) sister"
+        ]
+      },
+      {
+        "id": 1,
+        "question": "My ______ is 80 years old. She lives in Mashhad.",
+        "answer": "a) grandmother",
+        "options": [
+          "a) grandmother",
+          "b) brother",
+          "c) mother",
+          "d) classmate"
+        ]
+      },
+      {
+        "id": 2,
+        "question": "The daughter of my grandfather is my ______.",
+        "answer": "c) aunt",
+        "options": [
+          "a) cousin",
+          "b) mother",
+          "c) aunt",
+          "d) sister"
+        ]
+      },
+      {
+        "id": 3,
+        "question": "My uncle’s son is my ______.",
+        "answer": "a) cousin",
+        "options": [
+          "a) cousin",
+          "b) brother",
+          "c) nephew",
+          "d) friend"
+        ]
+      },
+      {
+        "id": 4,
+        "question": "The father of my mother is my ______.",
+        "answer": "a) grandfather",
+        "options": [
+          "a) grandfather",
+          "b) father",
+          "c) uncle",
+          "d) brother"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="voc"
+            type="com.rhmn.learneng.data.model.Vocal" />
+    </data>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:textSize="16sp"
+        android:textColor="@color/blackLighter"
+        tool:text="“after she left him, he went berserk, throwing things around the apartment”"
+        />
+
+
+</layout>
