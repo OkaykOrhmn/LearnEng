@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.rhmn.learneng.R
+import com.rhmn.learneng.data.model.DayResult
 import com.rhmn.learneng.data.model.DayStep
 import com.rhmn.learneng.data.model.DayType
 import com.rhmn.learneng.data.model.QuizType
@@ -34,34 +35,6 @@ class DayFragment : Fragment() {
         val args = DayFragmentArgs.fromBundle(requireArguments())
         dayStatusViewModel.initialize(requireContext())
 
-        dayStatusViewModel.dayStatusList.observe(viewLifecycleOwner) { dayStatusList ->
-            val dayStatus = dayStatusList.find { it.dayId == args.dayId }
-            if (dayStatus != null) {
-                val buttons = mapOf(
-                    DayStep.VOCAL to binding.vocabularyBtn,
-                    DayStep.PRO to binding.pronounciationBtn,
-                    DayStep.DICT to binding.dictionsBtn,
-                    DayStep.GR_QUIZ to binding.grammarQuizBtn,
-                    DayStep.READ to binding.readingBtn,
-                    DayStep.LISTEN to binding.listeningBtn,
-                    DayStep.FNL_QUIZ to binding.fnlQuizBtn
-                )
-                val enabledButtons = when (dayStatus.dayStep!!) {
-                    DayStep.VOCAL -> listOf(DayStep.VOCAL)
-                    DayStep.PRO -> listOf(DayStep.VOCAL, DayStep.PRO)
-                    DayStep.DICT -> listOf(DayStep.VOCAL, DayStep.PRO, DayStep.DICT)
-                    DayStep.GR_QUIZ -> listOf(DayStep.VOCAL, DayStep.PRO, DayStep.DICT,DayStep.GR_QUIZ)
-                    DayStep.READ -> listOf(DayStep.VOCAL, DayStep.PRO, DayStep.DICT,DayStep.GR_QUIZ, DayStep.READ)
-                    DayStep.LISTEN -> listOf(DayStep.VOCAL, DayStep.PRO, DayStep.DICT,DayStep.GR_QUIZ, DayStep.READ,DayStep.LISTEN)
-                    DayStep.FNL_QUIZ -> listOf(DayStep.VOCAL, DayStep.PRO, DayStep.DICT,DayStep.GR_QUIZ, DayStep.READ,DayStep.LISTEN, DayStep.FNL_QUIZ)
-                    DayStep.FINISH -> buttons.keys.toList() // All buttons enabled
-                }
-                buttons.forEach { (step, btn) ->
-                    btn.isEnabled = step in enabledButtons
-                    btn.alpha = if (btn.isEnabled) 1.0f else 0.5f
-                }
-            }
-        }
 
         when (args.dayType) {
             DayType.DAY_1 -> {
@@ -89,7 +62,11 @@ class DayFragment : Fragment() {
         binding.dictionsBtn.setOnClickListener {
             if (binding.dictionsBtn.isEnabled) {
                 findNavController().navigate(R.id.action_day_to_dictionsFragment)
-
+                dayStatusViewModel.updateDayStatus(
+                    requireContext(),
+                    args.dayId,
+                    newDayResult1 = DayResult.SUCCESS
+                )
             }
         }
 
@@ -116,6 +93,11 @@ class DayFragment : Fragment() {
             val action =
                 DayFragmentDirections.actionDayToQuizFragment(quizType = quizType)
             findNavController().navigate(action)
+            dayStatusViewModel.updateDayStatus(
+                requireContext(),
+                args.dayId,
+                newDayResult2 = DayResult.SUCCESS
+            )
         }
 
         binding.listeningBtn.setOnClickListener {
@@ -127,6 +109,11 @@ class DayFragment : Fragment() {
             val action =
                 DayFragmentDirections.actionDayToQuizFragment(quizType = quizType)
             findNavController().navigate(action)
+            dayStatusViewModel.updateDayStatus(
+                requireContext(),
+                args.dayId,
+                newDayResult3 = DayResult.SUCCESS
+            )
 
         }
     }

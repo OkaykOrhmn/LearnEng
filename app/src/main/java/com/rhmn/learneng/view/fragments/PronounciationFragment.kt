@@ -2,6 +2,7 @@ package com.rhmn.learneng.view.fragments
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.rhmn.learneng.R
-import com.rhmn.learneng.data.model.DayStep
 import com.rhmn.learneng.data.model.Vocal
 import com.rhmn.learneng.databinding.FragmentPronounciationBinding
 import com.rhmn.learneng.viewmodel.DayViewModel
@@ -107,13 +107,7 @@ class PronounciationFragment : Fragment() {
 
         viewModel.pronunciationList.observe(viewLifecycleOwner) { list ->
            updateNumList(list)
-            if (list.all { it.success }) {
-                dayStatusViewModel.updateDayStatus(
-                    requireContext(),
-                    dayId,
-                    newDayStep = DayStep.DICT
-                )
-            }
+
         }
 
         when {
@@ -137,28 +131,34 @@ class PronounciationFragment : Fragment() {
         }
 
         binding.micButton.setOnClickListener {
+            binding.errorText.visibility = View.GONE
             binding.inputField.text = ""
             viewModel.startListening()
         }
 
         viewModel.recognizedText.observe(viewLifecycleOwner) { text ->
+            if(text.startsWith("Error:")){
+                binding.errorText.visibility = View.VISIBLE
+                return@observe
+            }
+
             binding.inputField.text = text
             binding.pervBtn.isEnabled = false
             binding.nextBtn.isEnabled = false
             binding.micButton.isEnabled = false
+
             val cleanedText = text.lowercase(Locale.getDefault()).replace(Regex("[^a-z]"), "")
             val cleanedSentenceText =
                 (viewModel.pronunciationList.value?.get(viewModel.pronunciationId.value!!)?.word
                     ?: "").lowercase(Locale.getDefault()).replace(Regex("[^a-z]"), "")
-
             if (cleanedText == cleanedSentenceText
             ) {
                 CoroutineScope(Dispatchers.Main).launch {
                     Toast.makeText(context, "درسته", Toast.LENGTH_SHORT).show()
+                    viewModel.updatePronunciationField(true)
                     withContext(Dispatchers.IO) {
                         Thread.sleep(1000)
                     }
-                    viewModel.updatePronunciationField(true)
                     val check =
                         viewModel.pronunciationId.value!! < viewModel.pronunciationList.value!!.size - 1
                     if (check) {
@@ -167,6 +167,7 @@ class PronounciationFragment : Fragment() {
                 }
             } else {
                 Toast.makeText(context, "نادرسته", Toast.LENGTH_SHORT).show()
+                binding.errorText.visibility = View.VISIBLE
             }
 
             binding.pervBtn.isEnabled = true
@@ -177,12 +178,14 @@ class PronounciationFragment : Fragment() {
         viewModel.isListening.observe(viewLifecycleOwner) { isListening ->
             binding.micButton.isEnabled = !isListening
             if (isListening) {
+                binding.micButton.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
                 binding.micButton.background =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.circle_background_red)
+                    ContextCompat.getDrawable(requireContext(), R.drawable.circle_background_active)
                 binding.statusTv.text = "صحبت کنید"
             } else {
+                binding.micButton.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.yellow))
                 binding.micButton.background =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.circle_background_blue)
+                    ContextCompat.getDrawable(requireContext(), R.drawable.circle_background_deactive)
                 binding.statusTv.text = "روی دکمه میکروفون بزنید"
             }
         }

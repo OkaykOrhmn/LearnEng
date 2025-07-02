@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.rhmn.learneng.R
+import com.rhmn.learneng.data.model.DayResult
 import com.rhmn.learneng.data.model.DayStep
 import com.rhmn.learneng.databinding.FragmentDictionsBinding
 import com.rhmn.learneng.viewmodel.DayViewModel
@@ -49,14 +51,6 @@ class DictionsFragment : Fragment() {
             viewModel.fillUnselectedDictionLetterList()
 
             updateNumList(list)
-
-            if (list.all { it.third }) {
-                dayStatusViewModel.updateDayStatus(
-                    requireContext(),
-                    dayId,
-                    newDayStep = DayStep.GR_QUIZ
-                )
-            }
         }
 
         viewModel.loading.observe(viewLifecycleOwner) {
@@ -77,10 +71,12 @@ class DictionsFragment : Fragment() {
                 viewModel.selectedDictionLetterList.value?.let { it1 ->
                     binding.selectedDictionsListView.setup(
                         it1,
+                        layout = R.layout.item_word,
                         onClick = { item ->
                             viewModel.removeItemFromSelectedDictionLetterList(item)
                             viewModel.addItemToUnelectedDictionLetterList(item)
                         },
+                        enableScrolling = false
                     )
                 }
                 viewModel.unselectedDictionLetterList.value?.let { it1 ->
@@ -90,6 +86,7 @@ class DictionsFragment : Fragment() {
                             viewModel.removeItemFromUnselectedDictionLetterList(item)
                             viewModel.addItemToSelectedDictionLetterList(item)
                         },
+                        enableScrolling = false
                     )
                 }
             }

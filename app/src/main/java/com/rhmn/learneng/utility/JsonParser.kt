@@ -32,7 +32,7 @@ object JsonParser {
             daysList?.map { day ->
                 day.apply {
                     dayStatus = dayStatusManager.getDayStatusById(this.id)
-                        ?: DayStatus(dayId = this.id, dayStep = if(this.id == 0) DayStep.VOCAL else null) // Add to mutable list
+                        ?: DayStatus(dayId = this.id) // Add to mutable list
                 }
             }
 

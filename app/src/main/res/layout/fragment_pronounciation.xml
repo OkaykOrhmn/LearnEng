@@ -9,112 +9,183 @@
         android:id="@+id/action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:backEnabled="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:backEnabled="true"
         app:titleText="تلفظ"
 
         />
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <!-- Label -->
-        <TextView
-            android:id="@+id/word_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tool:text="teacher" />
-
-        <!-- EditText with Dashed Border -->
-        <TextView
-            android:id="@+id/input_field"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@drawable/dashed_border"
-            android:gravity="center"
-            android:padding="10dp"
-            android:textColor="#00FF00"
-            android:textSize="16sp"
-            tool:text="teacher" />
-
-        <!-- Microphone Button -->
-        <ImageButton
-            android:id="@+id/mic_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/circle_background_blue"
-            android:contentDescription="Microphone"
-            android:src="@drawable/baseline_mic_none_24"
-            app:tint="@color/white" />
-
-        <TextView
-            android:id="@+id/status_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:text="روی دکمه میکروفون بزنید"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+        app:layout_constraintTop_toBottomOf="@id/action_bar">
 
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="32dp">
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/perv_btn"
+            <TextView
+                android:id="@+id/word_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondary"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                tool:text="teacher"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="8dp"
+                />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:background="@drawable/round_button"
-                android:padding="8dp"
-                android:src="@drawable/baseline_arrow_back_ios_new_24"
-                app:tint="@color/white" />
+                android:layout_marginHorizontal="32dp"
+                android:gravity="center"
+                android:text="out of control with anger or excitement; wild or frenzied."
+                android:textColor="@color/blackLighter"
+                android:textSize="18sp"
+
+                />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="52dp"
+                android:layout_marginVertical="32dp"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/black"
+                app:strokeWidth="1dp"
+
+                >
+
+                <TextView
+                    android:id="@+id/input_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:textColor="@color/blackLighter"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tool:text="teacher" />
+            </com.google.android.material.card.MaterialCardView>
 
 
+            <TextView
+                android:id="@+id/error_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="52dp"
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:text="تلفظ شما اشتباه است لطفا دوباره سعی کنید"
+                android:textColor="@color/fail"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
-            <ImageButton
-                android:id="@+id/next_btn"
+            <RelativeLayout
+                android:layout_width="168dp"
+                android:layout_height="168dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_centerInParent="true"
+                    android:elevation="1dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="360dp"
+
+                    />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="148dp"
+                    android:layout_height="148dp"
+                    android:layout_centerInParent="true"
+                    android:elevation="2dp"
+                    app:cardBackgroundColor="@color/background"
+                    app:cardCornerRadius="360dp" />
+
+
+                <ImageButton
+                    android:id="@+id/mic_button"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/circle_background_deactive"
+                    android:contentDescription="Microphone"
+                    android:elevation="4dp"
+                    android:src="@drawable/voice"
+                    app:tint="@color/yellow" />
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/status_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/round_button"
-                android:padding="8dp"
-                android:src="@drawable/baseline_arrow_forward_ios_24"
-                app:tint="@color/white" />
-        </RelativeLayout>
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="با زدن روی میکروفون، تلفظ کلمه را بگویید"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
 
-    </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="32dp">
+
+                <ImageButton
+                    android:id="@+id/perv_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/round_button"
+                    android:padding="8dp"
+                    android:src="@drawable/baseline_arrow_back_ios_new_24"
+                    app:tint="@color/white" />
 
 
-    <com.rhmn.learneng.view.components.NumericListView
-        android:id="@+id/numericListView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+                <ImageButton
+                    android:id="@+id/next_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/round_button"
+                    android:padding="8dp"
+                    android:src="@drawable/baseline_arrow_forward_ios_24"
+                    app:tint="@color/white" />
+            </RelativeLayout>
+
+            <com.rhmn.learneng.view.components.NumericListView
+                android:id="@+id/numericListView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
 
 
+                />
 
-        />
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

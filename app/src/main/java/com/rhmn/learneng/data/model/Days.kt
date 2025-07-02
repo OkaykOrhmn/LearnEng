@@ -42,8 +42,11 @@ data class Reading(
 
 data class DayStatus(
     val dayId: Int,
-    var dayStep: DayStep? = null,
-    var grammarQuizResult : List<Boolean>? = emptyList(),
-    var readingQuizResult : List<Boolean>? = emptyList(),
-    var finalQuizResult : List<Boolean>? = emptyList(),
+    var dayResult1: DayResult = DayResult.OPEN,
+    var dayResult2: DayResult = DayResult.OPEN,
+    var dayResult3: DayResult = DayResult.OPEN,
+//    var dayStep: DayStep? = null,
+//    var grammarQuizResult : List<Boolean>? = emptyList(),
+//    var readingQuizResult : List<Boolean>? = emptyList(),
+//    var finalQuizResult : List<Boolean>? = emptyList(),
 )

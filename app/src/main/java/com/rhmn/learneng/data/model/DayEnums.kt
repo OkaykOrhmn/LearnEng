@@ -1,10 +1,10 @@
 package com.rhmn.learneng.data.model
 
 enum class DayResult {
-    FAIL,
+//    FAIL,
     SUCCESS,
-    OPEN,
-    LOCK
+    OPEN
+//    LOCK
 }
 
 enum class DayStep{

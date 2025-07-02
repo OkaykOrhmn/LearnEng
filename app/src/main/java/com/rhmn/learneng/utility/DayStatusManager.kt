@@ -42,28 +42,25 @@ class DayStatusManager(context: Context) {
 
     fun getDayStatusById(dayId: Int): DayStatus? {
         if(getDayStatusList().isEmpty()){
-            return DayStatus(dayId = dayId, dayStep = if(dayId== 0) DayStep.VOCAL else null)
+            return DayStatus(dayId = dayId)
         }
         return getDayStatusList().find { it.dayId == dayId }
     }
 
     fun updateDayStatus(
         dayId: Int,
-        newDayStep: DayStep? ,
-        newGrammarQuizResult : List<Boolean>? ,
-        newReadingQuizResult : List<Boolean>?,
-        newFinalQuizResult : List<Boolean>? ,
+        newDayResult1: DayResult? ,
+        newDayResult2: DayResult? ,
+        newDayResult3: DayResult?
 
     ) {
         val currentDayStatus = getDayStatusById(dayId)
             ?: DayStatus(dayId = dayId)
 
         val updatedDayStatus = currentDayStatus.copy(
-            dayStep = newDayStep ?: currentDayStatus.dayStep,
-            grammarQuizResult = newGrammarQuizResult ?: currentDayStatus.grammarQuizResult,
-            readingQuizResult = newReadingQuizResult ?: currentDayStatus.readingQuizResult,
-            finalQuizResult = newFinalQuizResult ?: currentDayStatus.finalQuizResult,
-
+            dayResult1 = newDayResult1 ?: currentDayStatus.dayResult1,
+            dayResult2 = newDayResult2 ?: currentDayStatus.dayResult2,
+            dayResult3 =newDayResult3 ?: currentDayStatus.dayResult3
         )
 
         saveOrUpdateDayStatus(updatedDayStatus)

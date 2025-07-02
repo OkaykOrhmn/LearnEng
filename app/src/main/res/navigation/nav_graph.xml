@@ -78,10 +78,9 @@
         android:name="com.rhmn.learneng.view.QuizFinishDialog"
         android:label="QuizFinishDialog" >
         <argument
-            android:name="quizType"
-            android:defaultValue="GRAMMAR"
-            app:argType="com.rhmn.learneng.data.model.QuizType"
-            app:nullable="false" />
+            android:name="score"
+            app:argType="com.rhmn.learneng.data.model.Score"
+            app:nullable="true" />
 
         <argument
             android:name="dayId"

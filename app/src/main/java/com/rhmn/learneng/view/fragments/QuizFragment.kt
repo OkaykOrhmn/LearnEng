@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.rhmn.learneng.data.model.DayStep
 import com.rhmn.learneng.data.model.Question
 import com.rhmn.learneng.data.model.QuizType
+import com.rhmn.learneng.data.model.Score
 import com.rhmn.learneng.databinding.FragmentQuizBinding
 import com.rhmn.learneng.view.QuizFinishDialogDirections
 import com.rhmn.learneng.viewmodel.DayViewModel
@@ -143,49 +144,18 @@ class QuizFragment : Fragment() {
             updateNumList(it)
 
             if (viewModel.quizList.value!!.all { it.userAnswer != null }) {
-                var gList: List<Boolean>? = null
-                var rList: List<Boolean>? = null
-                var fList: List<Boolean>? = null
-                var dayStep = DayStep.READ
-                when (quizType) {
-                    QuizType.READING -> {
-                        rList = viewModel.quizList.value!!.map { it.userAnswer == it.answer }
-//                        dayStep = DayStep.LISTEN
-                        dayStep = DayStep.FNL_QUIZ
-
-                    }
-
-                    QuizType.GRAMMAR -> {
-                        gList = viewModel.quizList.value!!.map { it.userAnswer == it.answer }
-                        dayStep = DayStep.READ
-                    }
-
-                    QuizType.FINAL -> {
-                        fList = viewModel.quizList.value!!.map { it.userAnswer == it.answer }
-                        dayStep = DayStep.FINISH
-                        if (dayStatusViewModel.isDayStatusExist(dayId + 1)) {
-                            dayStatusViewModel.updateDayStatus(
-                                requireContext(),
-                                dayId + 1,
-                                newDayStep = DayStep.VOCAL,
-                                )
-                        }
-
-                    }
-                }
-
-                dayStatusViewModel.updateDayStatus(
-                    requireContext(),
-                    dayId,
-                    newDayStep = dayStep,
-                    newGrammarQuizResult = gList,
-                    newReadingQuizResult = rList,
-                    newFinalQuizResult = fList,
-                )
-
+               val cAnswers = viewModel.quizList.value!!.count { it.answer == it.userAnswer }
+               val wAnswers = viewModel.quizList.value!!.count { it.answer != it.userAnswer }
+                val total = viewModel.quizList.value!!.size
+                val score = (cAnswers * 100 ) / total
                 val action =
                     QuizFinishDialogDirections.actionToQuizFinishDialog(
-                        quizType = quizType,
+                        score = Score(
+                            correctCount = cAnswers,
+                            wrongCount = wAnswers,
+                            totalCount = total,
+                            resultScore = score
+                        ),
                         dayId = dayId
                     )
 

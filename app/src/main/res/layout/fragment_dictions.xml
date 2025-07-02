@@ -90,13 +90,25 @@
                   android:gravity="center"
                   android:layout_gravity="center"
                   android:layout_margin="10dp"
-                  android:minHeight="52dp"
                   >
                   <com.rhmn.learneng.view.components.DictionsListView
                       android:id="@+id/selectedDictionsListView"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_centerInParent="true"
+                      />
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:textSize="24sp"
+                      android:textColor="@color/black"
+                      tool:text="W"
+                      android:textStyle="bold"
+                      android:layout_margin="4dp"
+                      android:layout_centerInParent="true"
+                      android:visibility="invisible"
+                      android:clickable="false"
                       />
               </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>

@@ -34,17 +34,15 @@ class DayViewModel : ViewModel() {
     fun updateDayStatus(
         context: Context,
         dayId: Int,
-        newDayStep: DayStep? = null,
-        newGrammarQuizResult: List<Boolean>? = null,
-        newReadingQuizResult: List<Boolean>? = null,
-        newFinalQuizResult: List<Boolean>? = null,
+        newDayResult1: DayResult? = null ,
+        newDayResult2: DayResult? = null,
+        newDayResult3: DayResult? = null
     ) {
         DayStatusManager(context).updateDayStatus(
             dayId = dayId,
-            newDayStep = newDayStep,
-            newGrammarQuizResult = newGrammarQuizResult ,
-            newReadingQuizResult = newReadingQuizResult ,
-            newFinalQuizResult = newFinalQuizResult ,
+            newDayResult1 = newDayResult1,
+            newDayResult2 = newDayResult2,
+            newDayResult3 = newDayResult3,
         )
         _dayStatusList.value = DayStatusManager(context).getDayStatusList()
     }

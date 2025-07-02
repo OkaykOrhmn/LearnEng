@@ -102,13 +102,7 @@ class WordFragment : Fragment() {
                 View.GONE
             }
 
-            if (wordId == viewModel.vocabularyList.value!!.size - 1) {
-                dayStatusViewModel.updateDayStatus(
-                    context = requireContext(),
-                    dayId = dayId,
-                    newDayStep = DayStep.PRO
-                )
-            }
+
         }
 
         binding.showWordMeaningBtn.setOnClickListener {

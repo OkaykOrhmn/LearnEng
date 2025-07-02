@@ -44,29 +44,23 @@ class DaysListView @JvmOverloads constructor(
                 if (binding is ItemDayBinding) {
                     binding.days = item
 
-                    val (itemType1, itemType2, itemType3) = when (item.dayStatus.dayStep) {
-                        DayStep.FINISH -> Triple(DayResult.SUCCESS, DayResult.SUCCESS, DayResult.SUCCESS)
-                        DayStep.VOCAL, DayStep.PRO, DayStep.DICT -> Triple(DayResult.OPEN, DayResult.LOCK, DayResult.LOCK)
-                        DayStep.GR_QUIZ, DayStep.READ -> Triple(DayResult.SUCCESS, DayResult.OPEN, DayResult.LOCK)
-                        DayStep.LISTEN, DayStep.FNL_QUIZ -> Triple(DayResult.SUCCESS, DayResult.SUCCESS, DayResult.OPEN)
-                        else ->  Triple(DayResult.LOCK, DayResult.LOCK, DayResult.LOCK)
-                    }
+
                     setDayStatus(
-                        itemType1,
+                        item.dayStatus.dayResult1,
                         binding.tvStatus1,
                         binding.tvStatusIcon1,
                         binding.tvDay1,
                         binding.day1
                     )
                     setDayStatus(
-                        itemType2,
+                        item.dayStatus.dayResult2,
                         binding.tvStatus2,
                         binding.tvStatusIcon2,
                         binding.tvDay2,
                         binding.day2
                     )
                     setDayStatus(
-                        itemType3,
+                        item.dayStatus.dayResult3,
                         binding.tvStatus3,
                         binding.tvStatusIcon3,
                         binding.tvDay3,
@@ -74,28 +68,25 @@ class DaysListView @JvmOverloads constructor(
                     )
 
                     binding.day1.setOnClickListener {
-                        if (itemType1 != DayResult.LOCK) {
                             val action =
                                 HomeFragmentDirections.actionHomeFragmentToDayOneFragment(dayId = item.id, dayType = DayType.DAY_1)
                             findNavController().navigate(action)
-                        }
+
 
                     }
                     binding.day2.setOnClickListener {
-                        if (itemType2 != DayResult.LOCK) {
                             val action =
                                 HomeFragmentDirections.actionHomeFragmentToDayOneFragment(dayId = item.id, dayType = DayType.DAY_2)
                             findNavController().navigate(action)
-                        }
+
 
 
                     }
                     binding.day3.setOnClickListener {
-                        if (itemType3 != DayResult.LOCK) {
                             val action =
                                 HomeFragmentDirections.actionHomeFragmentToDayOneFragment(dayId = item.id, dayType = DayType.DAY_3)
                             findNavController().navigate(action)
-                        }
+
 
 
                     }
@@ -129,27 +120,27 @@ class DaysListView @JvmOverloads constructor(
                 textColor = R.color.success
                 backColor = R.color.successBack
             }
+//
+//            DayResult.FAIL -> {
+//                text = "Missed"
+//                icon = R.drawable.close
+//                textColor = R.color.fail
+//                backColor = R.color.failBack
+//            }
 
-            DayResult.FAIL -> {
-                text = "Missed"
-                icon = R.drawable.close
-                textColor = R.color.fail
-                backColor = R.color.failBack
-            }
-
-            DayResult.LOCK -> {
-                text = ""
-                statusTextView.visibility = View.GONE
-                icon = R.drawable.lock
-                textColor = R.color.darkGray
-                backColor = R.color.white
-
-                val params = statusIconImageView.layoutParams as RelativeLayout.LayoutParams
-                params.removeRule(RelativeLayout.CENTER_IN_PARENT)
-                params.addRule(RelativeLayout.ALIGN_PARENT_END)
-                params.addRule(RelativeLayout.CENTER_VERTICAL)
-                statusIconImageView.layoutParams = params
-            }
+//            DayResult.LOCK -> {
+//                text = ""
+//                statusTextView.visibility = View.GONE
+//                icon = R.drawable.lock
+//                textColor = R.color.darkGray
+//                backColor = R.color.white
+//
+//                val params = statusIconImageView.layoutParams as RelativeLayout.LayoutParams
+//                params.removeRule(RelativeLayout.CENTER_IN_PARENT)
+//                params.addRule(RelativeLayout.ALIGN_PARENT_END)
+//                params.addRule(RelativeLayout.CENTER_VERTICAL)
+//                statusIconImageView.layoutParams = params
+//            }
 
             DayResult.OPEN -> {
                 text = "Start"
