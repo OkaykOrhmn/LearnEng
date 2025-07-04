@@ -27,7 +27,7 @@ class QuizViewModel : ViewModel() {
     private val _selectedOption = MutableLiveData<Int?>()
     val selectedOption: LiveData<Int?> get() = _selectedOption
 
-    fun fetchReading(context: Context, quizType: QuizType) {
+    fun fetchQuiz(context: Context, quizType: QuizType) {
         val days = JsonParser.parseDays(context)!![dayId]
         when (quizType) {
             QuizType.READING -> {
@@ -46,6 +46,7 @@ class QuizViewModel : ViewModel() {
             }
         }
         _loading.value = false
+
     }
 
     fun updateQuizField(userAnswer: String) {

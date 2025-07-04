@@ -9,10 +9,21 @@ data class Days(
     @SerializedName("pronunciation") val pronunciation: List<Vocal>,
     @SerializedName("grammarQuiz") val grammarQuiz: List<Question>,
     @SerializedName("reading") val reading: Reading,
-    @SerializedName("listening") val listening: Any,
+    @SerializedName("listening") val listening: Listening,
     @SerializedName("quiz") val quiz: List<Question>,
 
     var dayStatus: DayStatus
+)
+
+data class Listening(
+    @SerializedName("title") val title: String,
+    @SerializedName("dialogue") val dialogue: List<Dialogue>,
+
+)data class Dialogue(
+    @SerializedName("speaker") val speaker: String,
+    @SerializedName("text") val text: String,
+    @SerializedName("translation") val translation: String,
+
 )
 
 data class Vocal(

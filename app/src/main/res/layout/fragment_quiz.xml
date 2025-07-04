@@ -9,187 +9,122 @@
         android:id="@+id/action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:backEnabled="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:backEnabled="true"
 
         />
 
-
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/main_container"
+
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/numericListView"
+        android:fadeScrollbars="false"
+        android:overScrollMode="always"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar">
+        app:layout_constraintTop_toBottomOf="@+id/action_bar"
 
 
-        <LinearLayout
-            android:id="@+id/reading_section"
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fadeScrollbars="false"
-                android:overScrollMode="always"
-                android:scrollbarStyle="insideOverlay"
-                android:scrollbars="vertical"
-
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:paddingEnd="8dp"
-                    >
-
-                    <TextView
-                        android:id="@+id/reading_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:gravity="center"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        tool:text="title" />
-
-                    <TextView
-                        android:id="@+id/reading_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        tool:text="@tools:sample/lorem/random" />
-
-                    <TextView
-                        android:id="@+id/translate_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:visibility="gone"
-                        tool:text="@tools:sample/lorem/random" />
-
-                    <Button
-                        android:id="@+id/translate_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="16dp"
-                        android:text="Show Translate"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:cornerRadius="8dp"
-
-
-                        />
-                </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
-
-        </LinearLayout>
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="16dp">
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="32dp"
+            >
 
-            <RelativeLayout
-                android:id="@+id/input_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/dashed_border"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/question_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    tool:text="سوال" />
-            </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/reading_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:gravity="center"
+                >
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/reading_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_margin="16dp"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tool:text="title" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/answer_a_btn"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:textSize="16sp"
-                        app:cornerRadius="8dp"
-                        app:strokeWidth="2dp"
-                        tool:text="1" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/answer_c_btn"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:textSize="16sp"
-                        app:cornerRadius="8dp"
-                        app:strokeWidth="2dp"
-                        tool:text="3" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/reading_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    tool:text="@tools:sample/lorem/random" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/answer_b_btn"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:textSize="16sp"
-                        app:cornerRadius="8dp"
-                        app:strokeWidth="2dp"
-                        tool:text="2" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/translate_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="32dp"
+                    android:backgroundTint="@color/secondary"
+                    android:paddingHorizontal="46dp"
+                    android:paddingVertical="8dp"
+                    android:text="معنی متن"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="12dp" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/answer_d_btn"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:textSize="16sp"
-                        app:cornerRadius="8dp"
-                        app:strokeWidth="2dp"
-                        tool:text="4" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/translate_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    tool:text="@tools:sample/lorem/random" />
+
 
             </LinearLayout>
+
+
+            <com.rhmn.learneng.view.components.StepView
+                android:id="@+id/stepView"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="32dp"
+
+                />
+
+
+            <TextView
+                android:id="@+id/question_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="32dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tool:text="3.Choose the correct option to complete the sentence:"
+
+                />
+
+            <com.rhmn.learneng.view.components.OptionsListView
+                android:id="@+id/options_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -199,63 +134,31 @@
 
                 <ImageButton
                     android:id="@+id/perv_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
                     android:layout_alignParentStart="true"
                     android:background="@drawable/round_button"
-                    android:padding="8dp"
-                    android:src="@drawable/baseline_arrow_back_ios_new_24"
+                    android:padding="18dp"
+                    android:src="@drawable/arrow_left"
                     app:tint="@color/white" />
-
-                <Button
-                    android:id="@+id/success_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="بازگشت"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="gone"
-                    app:cornerRadius="8dp"
-
-
-                    />
 
 
                 <ImageButton
                     android:id="@+id/next_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
                     android:layout_alignParentEnd="true"
                     android:background="@drawable/round_button"
-                    android:padding="8dp"
-                    android:src="@drawable/baseline_arrow_forward_ios_24"
+                    android:padding="18dp"
+                    android:src="@drawable/arrow_right"
                     app:tint="@color/white" />
             </RelativeLayout>
-
-
 
 
         </LinearLayout>
 
 
-
-
-    </LinearLayout>
-
-    <com.rhmn.learneng.view.components.NumericListView
-        android:id="@+id/numericListView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_container"
-
-
-
-        />
+    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

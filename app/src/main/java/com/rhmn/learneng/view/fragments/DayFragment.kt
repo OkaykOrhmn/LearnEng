@@ -101,7 +101,7 @@ class DayFragment : Fragment() {
         }
 
         binding.listeningBtn.setOnClickListener {
-            Toast.makeText(requireContext(), "Listening", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_dayFragment_to_listeningFragment)
         }
 
         binding.fnlQuizBtn.setOnClickListener {

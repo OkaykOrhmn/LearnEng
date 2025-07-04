@@ -48,6 +48,9 @@ object JsonParser {
     fun getVocals(context: Context, day: Int): List<Vocal>? {
         return parseDays(context)?.getOrNull(day)?.vocabulary
     }
+    fun getListening(context: Context, day: Int): Listening? {
+        return parseDays(context)?.getOrNull(day)?.listening
+    }
 
     fun getPronunciationList(context: Context, day: Int): List<Vocal>? {
         return parseDays(context)?.getOrNull(day)?.pronunciation

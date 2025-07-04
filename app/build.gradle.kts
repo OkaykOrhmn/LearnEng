@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.navigationSafeArgs)
+    id("kotlin-kapt")
 }
 
 android {
@@ -67,7 +68,11 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
-    implementation(libs.gson)
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+
 
 
 }

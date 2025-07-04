@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_day_to_quizFragment"
             app:destination="@id/quizFragment" />
+        <action
+            android:id="@+id/action_dayFragment_to_listeningFragment"
+            app:destination="@id/listeningFragment" />
     </fragment>
 
     <fragment
@@ -88,4 +91,8 @@
             app:argType="integer" />
 
     </dialog>
+    <fragment
+        android:id="@+id/listeningFragment"
+        android:name="com.rhmn.learneng.view.fragments.ListeningFragment"
+        android:label="ListeningFragment" />
 </navigation>
