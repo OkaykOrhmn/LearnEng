@@ -6,38 +6,51 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.rhmn.learneng.data.model.DayResult
+import com.rhmn.learneng.data.model.DayType
 import com.rhmn.learneng.viewmodel.HomeViewModel
 import com.rhmn.learneng.databinding.FragmentHomeBinding
 import com.rhmn.learneng.viewmodel.DayViewModel
-
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModels()
-    private val dayStatusViewModel: DayViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dayStatusViewModel.initialize(requireContext())
 
         viewModel.fetchDaysList(requireContext())
 
         viewModel.daysList.observe(viewLifecycleOwner) { days ->
-            binding.daysListview.setup(
-                items = days,
-                onClick = {},
-                enableScrolling = true
-            )
+            binding.daysListview.updateItems(days)
         }
 
-        dayStatusViewModel.dayStatusList.observe(viewLifecycleOwner) { dayStatusList ->
-            val updatedDays = viewModel.daysList.value?.map { day ->
-                day.copy(dayStatus = dayStatusList.find { it.dayId == day.id } ?: day.dayStatus)
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            if (!isLoading) {
+                binding.loading.visibility = View.GONE
+                binding.daysListview.visibility = View.VISIBLE
+                binding.daysListview.setup(
+                    items = viewModel.daysList.value!!,
+                    onClick = { day ->
+                        if (day.dayResult == DayResult.LOCK) {
+                            viewModel.fetchDayData(requireContext(), day.id)
+                        } else {
+                            val action =
+                                HomeFragmentDirections.actionHomeFragmentToDayOneFragment(dayId = day.id)
+                            findNavController().navigate(action)
+                        }
+                    },
+                    enableScrolling = true
+                )
             }
-            binding.daysListview.updateItems(updatedDays ?: emptyList())
         }
+
+
     }
 
     override fun onCreateView(

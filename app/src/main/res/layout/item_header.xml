@@ -8,7 +8,7 @@
 
         <variable
             name="voc"
-            type="com.rhmn.learneng.data.model.Vocal" />
+            type="com.rhmn.learneng.data.model.Vocabulary" />
     </data>
 
     <TextView

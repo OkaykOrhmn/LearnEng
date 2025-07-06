@@ -8,191 +8,110 @@
 
         <variable
             name="days"
-            type="com.rhmn.learneng.data.model.Days" />
+            type="com.rhmn.learneng.data.model.Day" />
     </data>
 
-    <LinearLayout
-
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_margin="4dp"
+        app:cardCornerRadius="16dp"
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/day1"
+        >
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="16dp"
+            android:orientation="horizontal"
+            android:padding="16dp"
 
             >
 
-            <LinearLayout
+
+            <TextView
+                android:id="@+id/tvDay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                tool:text="Day 1"
 
-                >
+                />
 
-
-                <TextView
-                    android:id="@+id/tvDay1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:textSize="18sp"
-                    tool:text="Day 1"
-
-                    />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:id="@+id/tvStatusIcon1"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_centerInParent="true" />
-
-                </RelativeLayout>
-
-
-                <TextView
-                    android:id="@+id/tvStatus1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:textSize="20sp"
-                    tool:text="Done" />
-
-            </LinearLayout>
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/day2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="16dp"
-
-            >
-
-            <LinearLayout
-
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_gravity="center"
+
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/tvStatusIcon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_centerInParent="true" />
+
+            </RelativeLayout>
 
 
-                <TextView
-                    android:id="@+id/tvDay2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:textSize="18sp"
-                    tool:text="Day 2"
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
 
-                    />
+               >
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+               <TextView
+                   android:id="@+id/tvStatus"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:gravity="end"
+                   android:textSize="20sp"
+                   tool:text="Done" />
 
-                    android:layout_weight="1">
+<!--               <RelativeLayout-->
+<!--                   android:id="@+id/progress"-->
+<!--                   android:layout_width="wrap_content"-->
+<!--                   android:layout_height="wrap_content"-->
+<!--                   android:layout_alignParentRight="true"-->
 
-                    <ImageView
-                        android:id="@+id/tvStatusIcon2"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_centerInParent="true" />
+<!--               <com.google.android.material.progressindicator.CircularProgressIndicator-->
+<!--                   android:id="@+id/loading"-->
+<!--                   android:layout_width="46dp"-->
+<!--                   android:layout_height="46dp"-->
+<!--                   android:layout_centerInParent="true"-->
+<!--                   android:indeterminate="true"-->
+<!--                   app:indicatorColor="@color/secondary"-->
+<!--                   app:trackThickness="8dp"-->
+<!--                   />-->
 
-                </RelativeLayout>
+<!--                   <TextView-->
+<!--                       android:id="@+id/tvProgress"-->
+<!--                       android:layout_width="wrap_content"-->
+<!--                       android:layout_height="wrap_content"-->
+<!--                       android:textSize="14sp"-->
+<!--                       android:layout_marginStart="8dp"-->
+<!--                       tool:text="100%"-->
+<!--                       android:textColor="@color/black"-->
+<!--                       android:layout_centerInParent="true"-->
 
+<!--                       />-->
 
-                <TextView
-                    android:id="@+id/tvStatus2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:textSize="20sp"
-                    tool:text="Miss" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/day3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="16dp"
-
-            >
-
-            <LinearLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
+<!--               </RelativeLayout>-->
 
 
-                <TextView
-                    android:id="@+id/tvDay3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:textSize="18sp"
-                    tool:text="Day 3"
-
-                    />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    >
-
-                    <ImageView
-                        android:id="@+id/tvStatusIcon3"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_centerInParent="true" />
-
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/tvStatus3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:textSize="20sp"
-                    tool:text="Click To Start" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
 
 
-    </LinearLayout>
+           </RelativeLayout>
+
+
+
+
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
 
 </layout>

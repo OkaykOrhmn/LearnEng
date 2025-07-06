@@ -13,8 +13,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.rhmn.learneng.R
-import com.rhmn.learneng.data.model.Vocal
+import com.rhmn.learneng.data.model.Pronunciation
 import com.rhmn.learneng.databinding.FragmentPronounciationBinding
 import com.rhmn.learneng.viewmodel.DayViewModel
 import com.rhmn.learneng.viewmodel.PronounciationViewModel
@@ -30,22 +32,21 @@ class PronounciationFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: PronounciationViewModel by viewModels()
-    private val dayStatusViewModel: DayViewModel by activityViewModels()
-
-    private var isListInitialized = false
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
+    ) { isGranted ->
         if (isGranted) {
             viewModel.initializeSTT(requireContext())
         } else {
-            Toast.makeText(context, "Microphone permission denied", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Microphone permission denied", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPronounciationBinding.inflate(inflater, container, false)
@@ -55,70 +56,121 @@ class PronounciationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val dayId = parentFragment?.arguments?.let { args ->
-            DayFragmentArgs.fromBundle(args).dayId
-        } ?: 0
-        viewModel.dayId = dayId
+        val dayId = PronounciationFragmentArgs.fromBundle(requireArguments()).dayId
+        viewModel.fetchPronunciationList(requireContext(), dayId)
 
-        dayStatusViewModel.initialize(requireContext())
+        setupObservers()
+        setupPermissionAndSTT()
+        setupClickListeners()
+    }
 
-        viewModel.fetchPronunciationList(requireContext())
-        viewModel.setId(0)
+    private fun updateUI(p: Pronunciation, id: Int) {
+//        binding.pervBtn.visibility = if (id > 0) View.VISIBLE else View.GONE
+//        binding.nextBtn.visibility =
+//            if (id < (viewModel.pronunciationList.value?.size ?: 0) - 1) View.VISIBLE else View.GONE
+        binding.inputField.text = ""
+        binding.wordText.text = p.word.sentence
+    }
 
-        viewModel.pronunciationId.observe(viewLifecycleOwner) { pronunciationId ->
-            if (pronunciationId == null) return@observe
+    private fun setupObservers() {
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            showLoading(isLoading)
 
-            updateNumList(viewModel.pronunciationList.value!!)
+            // Disable UI controls during loading
+            val enabled = !isLoading
+            binding.micButton.isEnabled = enabled
+//            binding.pervBtn.isEnabled = enabled
+//            binding.nextBtn.isEnabled = enabled
 
-            binding.pervBtn.visibility = if (pronunciationId > 0) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-
-            binding.nextBtn.visibility =
-                if (pronunciationId < viewModel.pronunciationList.value!!.size - 1) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
-                }
-
-            val p = viewModel.pronunciationList.value?.get(pronunciationId)!!
-            val success =
-                (viewModel.pronunciationList.value?.find { it.id == p.id })?.success ?: false
-            binding.inputField.text = if (success) p.word else ""
-            binding.wordText.text = p.word
-
-        }
-
-        viewModel.loading.observe(viewLifecycleOwner) {
-            if(!it){
-                val numerics = viewModel.pronunciationList.value!!.mapIndexed() {  index, pronunciation ->
-                    Triple(index,pronunciation.id == viewModel.pronunciationId.value, pronunciation.success)
-                }
-                binding.numericListView.setup(
-                    numerics,
-                    onClick = { item ->
-                        viewModel.setId(item.first)
-                    },
-                )
+            if (isLoading) {
+                binding.wordText.text = "" // Clear word text while loading
+                binding.inputField.text = ""
+                binding.errorText.visibility = View.GONE
             }
         }
 
+        viewModel.pronunciationId.observe(viewLifecycleOwner) { id ->
+            val list = viewModel.pronunciationList.value
+            if (list.isNullOrEmpty()) return@observe
+            if (id !in list.indices) return@observe
+            updateUI(list[id], id)
+        }
         viewModel.pronunciationList.observe(viewLifecycleOwner) { list ->
-           updateNumList(list)
-
+            val id = viewModel.pronunciationId.value ?: 0
+            if (list.isNullOrEmpty()) return@observe
+            if (id !in list.indices) return@observe
+            updateUI(list[id], id)
+        }
+        viewModel.recognizedText.observe(viewLifecycleOwner) { text ->
+            if (text.startsWith("Error:")) {
+                binding.errorText.visibility = View.VISIBLE
+                return@observe
+            }
+            binding.inputField.text = text
+            checkPronunciationMatch(text)
         }
 
+        viewModel.isListening.observe(viewLifecycleOwner) { isListening ->
+            binding.micButton.isEnabled = !isListening
+            val colorRes = if (isListening) R.color.white else R.color.yellow
+            val bgDrawableRes =
+                if (isListening) R.drawable.circle_background_active else R.drawable.circle_background_deactive
+
+            binding.micButton.imageTintList =
+                ColorStateList.valueOf(ContextCompat.getColor(requireContext(), colorRes))
+            binding.micButton.background =
+                ContextCompat.getDrawable(requireContext(), bgDrawableRes)
+            binding.statusTv.text = if (isListening) "صحبت کنید" else "روی دکمه میکروفون بزنید"
+        }
+    }
+
+    private fun checkPronunciationMatch(recognizedText: String) {
+        val pronunciationId = viewModel.pronunciationId.value ?: return
+        val list = viewModel.pronunciationList.value ?: return
+        if (pronunciationId !in list.indices) return
+
+        val expectedSentence = list[pronunciationId].word.sentence.lowercase(Locale.getDefault())
+            .replace(Regex("[^a-z]"), "")
+        val cleanedText = recognizedText.lowercase(Locale.getDefault()).replace(Regex("[^a-z]"), "")
+
+//        binding.pervBtn.isEnabled = false
+//        binding.nextBtn.isEnabled = false
+        binding.micButton.isEnabled = false
+
+        if (cleanedText == expectedSentence) {
+            Toast.makeText(requireContext(), "درسته", Toast.LENGTH_SHORT).show()
+            binding.errorText.visibility = View.GONE
+
+            // Delay then advance to next
+            viewLifecycleOwner.lifecycleScope.launch {
+                kotlinx.coroutines.delay(1000)
+                if (pronunciationId < list.lastIndex) viewModel.increaseId() else findNavController().popBackStack()
+//                binding.pervBtn.isEnabled = true
+//                binding.nextBtn.isEnabled = true
+                binding.micButton.isEnabled = true
+            }
+        } else {
+            Toast.makeText(requireContext(), "نادرسته", Toast.LENGTH_SHORT).show()
+            binding.errorText.visibility = View.VISIBLE
+
+//            binding.pervBtn.isEnabled = true
+//            binding.nextBtn.isEnabled = true
+            binding.micButton.isEnabled = true
+        }
+    }
+
+    private fun setupPermissionAndSTT() {
         when {
-            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) ==
-                    PackageManager.PERMISSION_GRANTED -> {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.RECORD_AUDIO
+            ) == PackageManager.PERMISSION_GRANTED -> {
                 viewModel.initializeSTT(requireContext())
             }
 
             shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) -> {
                 Toast.makeText(
-                    context,
+                    requireContext(),
                     "Microphone permission is needed for speech recognition",
                     Toast.LENGTH_SHORT
                 ).show()
@@ -129,88 +181,26 @@ class PronounciationFragment : Fragment() {
                 requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
             }
         }
+    }
 
+    private fun setupClickListeners() {
         binding.micButton.setOnClickListener {
             binding.errorText.visibility = View.GONE
             binding.inputField.text = ""
             viewModel.startListening()
         }
-
-        viewModel.recognizedText.observe(viewLifecycleOwner) { text ->
-            if(text.startsWith("Error:")){
-                binding.errorText.visibility = View.VISIBLE
-                return@observe
-            }
-
-            binding.inputField.text = text
-            binding.pervBtn.isEnabled = false
-            binding.nextBtn.isEnabled = false
-            binding.micButton.isEnabled = false
-
-            val cleanedText = text.lowercase(Locale.getDefault()).replace(Regex("[^a-z]"), "")
-            val cleanedSentenceText =
-                (viewModel.pronunciationList.value?.get(viewModel.pronunciationId.value!!)?.word
-                    ?: "").lowercase(Locale.getDefault()).replace(Regex("[^a-z]"), "")
-            if (cleanedText == cleanedSentenceText
-            ) {
-                CoroutineScope(Dispatchers.Main).launch {
-                    Toast.makeText(context, "درسته", Toast.LENGTH_SHORT).show()
-                    viewModel.updatePronunciationField(true)
-                    withContext(Dispatchers.IO) {
-                        Thread.sleep(1000)
-                    }
-                    val check =
-                        viewModel.pronunciationId.value!! < viewModel.pronunciationList.value!!.size - 1
-                    if (check) {
-                        viewModel.increaseId()
-                    }
-                }
-            } else {
-                Toast.makeText(context, "نادرسته", Toast.LENGTH_SHORT).show()
-                binding.errorText.visibility = View.VISIBLE
-            }
-
-            binding.pervBtn.isEnabled = true
-            binding.nextBtn.isEnabled = true
-            binding.micButton.isEnabled = true
-        }
-
-        viewModel.isListening.observe(viewLifecycleOwner) { isListening ->
-            binding.micButton.isEnabled = !isListening
-            if (isListening) {
-                binding.micButton.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
-                binding.micButton.background =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.circle_background_active)
-                binding.statusTv.text = "صحبت کنید"
-            } else {
-                binding.micButton.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.yellow))
-                binding.micButton.background =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.circle_background_deactive)
-                binding.statusTv.text = "روی دکمه میکروفون بزنید"
-            }
-        }
-
-        binding.pervBtn.setOnClickListener {
-            viewModel.decreaseId()
-        }
-
-        binding.nextBtn.setOnClickListener {
-            viewModel.increaseId()
-        }
-
+//        binding.pervBtn.setOnClickListener { viewModel.decreaseId() }
+//        binding.nextBtn.setOnClickListener { viewModel.increaseId() }
     }
 
-    fun updateNumList(list: List<Vocal>){
-        val numerics = list.mapIndexed() {  index, it ->
-            Triple(index,it.id == viewModel.pronunciationId.value, it.success)
-        }
-        binding.numericListView.updateItems(numerics)
+    private fun showLoading(isLoading: Boolean) {
+        binding.loading.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.mainContainer.visibility = if (isLoading) View.GONE else View.VISIBLE
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        isListInitialized = false
+        viewModel.destroySTT()
     }
-
 }

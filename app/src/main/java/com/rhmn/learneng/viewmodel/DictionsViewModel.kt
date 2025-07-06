@@ -4,60 +4,58 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rhmn.learneng.utility.JsonParser
+import androidx.lifecycle.viewModelScope
+import androidx.room.Room
+import com.rhmn.learneng.data.AppDatabase
+import com.rhmn.learneng.data.model.Dictation
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DictionsViewModel : ViewModel() {
-    var dayId = 0
 
-    private val _dictionList = MutableLiveData<List<Triple<Int, String, Boolean>>>()
-    val dictionList: LiveData<List<Triple<Int, String, Boolean>>> get() = _dictionList
+    private val _dictionList = MutableLiveData<List<Dictation>>()
+    val dictionList: LiveData<List<Dictation>> get() = _dictionList
 
-    private val _dictionId = MutableLiveData<Int>(0)
+    private val _dictionId = MutableLiveData(0)
     val dictionId: LiveData<Int> get() = _dictionId
 
-    private val _loading = MutableLiveData<Boolean>(true)
+    private val _loading = MutableLiveData(true)
     val loading: LiveData<Boolean> get() = _loading
 
-    private val _selectedDictionLetterList = MutableLiveData<List<String>>()
-    val selectedDictionLetterList: LiveData<List<String>> get() = _selectedDictionLetterList
-    private val _unselectedDictionLetterList = MutableLiveData<List<String>>()
-    val unselectedDictionLetterList: LiveData<List<String>> get() = _unselectedDictionLetterList
+    private val _selectedDictionLetters = MutableLiveData<List<String>>(emptyList())
+    val selectedDictionLetters: LiveData<List<String>> get() = _selectedDictionLetters
 
-    fun updateDictionField(newSuccess: Boolean) {
-        val currentList = _dictionList.value?.toMutableList() ?: return
-        val index = currentList.indexOfFirst { it.first == _dictionId.value }
-        if (index != -1) {
-            val updated = currentList[index].copy(third = newSuccess)
-            currentList[index] = updated
-            _dictionList.value = currentList
+    private val _unselectedDictionLetters = MutableLiveData<List<String>>(emptyList())
+    val unselectedDictionLetters: LiveData<List<String>> get() = _unselectedDictionLetters
+
+    fun fetchDictionList(context: Context, dayId: Int) {
+        _loading.value = true
+        val db = Room.databaseBuilder(
+            context.applicationContext,
+            AppDatabase::class.java,
+            "my-database"
+        ).build()
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = db.dictationDao().getByDayId(dayId)
+            withContext(Dispatchers.Main) {
+                _dictionList.value = list
+                _loading.value = false
+            }
         }
     }
 
-    fun fetchDictionList(context: Context) {
-        val diction = JsonParser.parseDays(context)!![dayId].dictation
-        _dictionList.value = diction.mapIndexed { index, it ->
-            Triple(index, it, false)
-        }
-        _loading.value = false
+    fun initializeLetterLists() {
+        clearLetterLists()
+        val currentDiction = _dictionList.value?.getOrNull(_dictionId.value ?: 0) ?: return
+        val letters = currentDiction.word.sentence.map { it.toString() }.shuffled()
+        _unselectedDictionLetters.value = letters
     }
 
-    fun fillUnselectedDictionLetterList() {
-        cleanList()
-        val diction = _dictionList.value?.get(_dictionId.value!!)
-        val dictionLetters = diction?.second!!.map { it.toString() }
-        val current: ArrayList<String> = ArrayList();
-        current.addAll(dictionLetters)
-        if (diction.third) {
-            _selectedDictionLetterList.value = current
-        } else {
-            current.shuffle()
-            _unselectedDictionLetterList.value = current
-        }
-    }
-
-    private fun cleanList() {
-        _selectedDictionLetterList.value = emptyList()
-        _unselectedDictionLetterList.value = emptyList()
+    private fun clearLetterLists() {
+        _selectedDictionLetters.value = emptyList()
+        _unselectedDictionLetters.value = emptyList()
     }
 
     fun setId(id: Int) {
@@ -65,34 +63,34 @@ class DictionsViewModel : ViewModel() {
     }
 
     fun increaseId() {
-        _dictionId.value = _dictionId.value?.plus(1)
+        _dictionId.value = (_dictionId.value ?: 0) + 1
     }
 
     fun decreaseId() {
-        _dictionId.value = _dictionId.value?.minus(1)
+        _dictionId.value = (_dictionId.value ?: 0) - 1
     }
 
-    fun addItemToSelectedDictionLetterList(item: String) {
-        val currentList = _selectedDictionLetterList.value?.toMutableList() ?: mutableListOf()
-        currentList.add(item)
-        _selectedDictionLetterList.value = currentList
+    fun addToSelectedLetters(item: String) {
+        val updated = _selectedDictionLetters.value?.toMutableList() ?: mutableListOf()
+        updated.add(item)
+        _selectedDictionLetters.value = updated
     }
 
-    fun removeItemFromSelectedDictionLetterList(item: String) {
-        val currentList = _selectedDictionLetterList.value?.toMutableList() ?: return
-        currentList.remove(item)
-        _selectedDictionLetterList.value = currentList
+    fun removeFromSelectedLetters(item: String) {
+        val updated = _selectedDictionLetters.value?.toMutableList() ?: return
+        updated.remove(item)
+        _selectedDictionLetters.value = updated
     }
 
-    fun addItemToUnelectedDictionLetterList(item: String) {
-        val currentList = _unselectedDictionLetterList.value?.toMutableList() ?: mutableListOf()
-        currentList.add(item)
-        _unselectedDictionLetterList.value = currentList
+    fun addToUnselectedLetters(item: String) {
+        val updated = _unselectedDictionLetters.value?.toMutableList() ?: mutableListOf()
+        updated.add(item)
+        _unselectedDictionLetters.value = updated
     }
 
-    fun removeItemFromUnselectedDictionLetterList(item: String) {
-        val currentList = _unselectedDictionLetterList.value?.toMutableList() ?: return
-        currentList.remove(item)
-        _unselectedDictionLetterList.value = currentList
+    fun removeFromUnselectedLetters(item: String) {
+        val updated = _unselectedDictionLetters.value?.toMutableList() ?: return
+        updated.remove(item)
+        _unselectedDictionLetters.value = updated
     }
 }

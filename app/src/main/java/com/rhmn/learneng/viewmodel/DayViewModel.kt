@@ -4,46 +4,54 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.room.Room
+import com.rhmn.learneng.data.AppDatabase
 import com.rhmn.learneng.data.model.DayResult
-import com.rhmn.learneng.data.model.DayStatus
-import com.rhmn.learneng.data.model.DayStep
-import com.rhmn.learneng.utility.DayStatusManager
+import com.rhmn.learneng.data.model.Lesson
+import com.rhmn.learneng.data.model.QuizType
+import com.rhmn.learneng.utility.Tools
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DayViewModel : ViewModel() {
-    private val _dayStatusList = MutableLiveData<List<DayStatus>>()
-    val dayStatusList: LiveData<List<DayStatus>> get() = _dayStatusList
+    private val _lessonItem = MutableLiveData<Lesson>()
+    val lessonItem: LiveData<Lesson> get() = _lessonItem
+    private val _loading = MutableLiveData<Boolean>(true)
+    val loading: LiveData<Boolean> get() = _loading
 
-    private var dayStatusManager: DayStatusManager? = null
+    fun fetchLesson(context: Context,dayId: Int){
+        val db = Room.databaseBuilder(
+            context.applicationContext,
+            AppDatabase::class.java, "my-database"
+        ).build()
+        viewModelScope.launch(Dispatchers.IO) {
+            val vocabularies = db.vocabularyDao().getByDayId(dayId)
+            val dictations = db.dictationDao().getByDayId(dayId)
+            val pronunciations = db.pronunciationDao().getByDayId(dayId)
+            val grammarQuiz = db.quizDao().getByDayId(dayId,QuizType.GRAMMAR)
+            val finalQuiz = db.quizDao().getByDayId(dayId,QuizType.FINAL)
+            val readings = db.readingDao().getByDayId(dayId)
+            val listenings = db.listeningDao().getByDayId(dayId)
+            val dialogues = db.dialogueDao().getByDayId(dayId)
 
-    fun initialize(context: Context) {
-        if (dayStatusManager == null) {
-            dayStatusManager = DayStatusManager(context)
-            _dayStatusList.value = dayStatusManager?.getDayStatusList() ?: emptyList()
+            val lesson = Tools.buildLessonFromDbNullable(
+                vocabularies = vocabularies,
+                dictations = dictations,
+                pronunciations = pronunciations,
+                grammarQuiz = grammarQuiz,
+                finalQuiz = finalQuiz,
+                readings = readings,
+                listening = listenings,
+                dialogues = dialogues
+            )
+
+            // then do whatever
+            withContext(Dispatchers.Main) {
+                _lessonItem.value = lesson
+            }
+
         }
-    }
-
-    fun isDayStatusExist(dayId: Int): Boolean {
-        return try {
-            val day = _dayStatusList.value?.find { it.dayId == dayId }
-            day != null
-        } catch (_: Exception) {
-            return false
-        }
-    }
-
-    fun updateDayStatus(
-        context: Context,
-        dayId: Int,
-        newDayResult1: DayResult? = null ,
-        newDayResult2: DayResult? = null,
-        newDayResult3: DayResult? = null
-    ) {
-        DayStatusManager(context).updateDayStatus(
-            dayId = dayId,
-            newDayResult1 = newDayResult1,
-            newDayResult2 = newDayResult2,
-            newDayResult3 = newDayResult3,
-        )
-        _dayStatusList.value = DayStatusManager(context).getDayStatusList()
     }
 }

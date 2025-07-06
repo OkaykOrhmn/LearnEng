@@ -14,6 +14,7 @@ class ListeningFragment : Fragment() {
     companion object {
         fun newInstance() = ListeningFragment()
     }
+
     private var _binding: FragmentListeningBinding? = null
     private val binding get() = _binding!!
 
@@ -34,17 +35,19 @@ class ListeningFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val dayId = parentFragment?.arguments?.let { args ->
-            DayFragmentArgs.fromBundle(args).dayId
-        } ?: 0
-        viewModel.dayId = dayId
+        val dayId = ListeningFragmentArgs.fromBundle(requireArguments()).dayId
 
-        viewModel.fetchListeningList(requireContext())
 
-        viewModel.listeningItem.observe(viewLifecycleOwner){
+        viewModel.fetchListeningList(requireContext(), dayId)
+
+        viewModel.listeningItem.observe(viewLifecycleOwner) {
             if (it == null) return@observe
             binding.title.text = it.title
-            var text = it.dialogue.map { dialogue -> dialogue.text  }.toList()
+
+        }
+
+        viewModel.dialogItem.observe(viewLifecycleOwner) {
+            var text = it.map { dialogue -> dialogue.text }.toList()
             binding.conversationTv.text = text.joinToString(separator = "")
         }
 

@@ -1,183 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
 
     <com.rhmn.learneng.view.components.PrimaryToolBar
         android:id="@+id/action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backEnabled="true"
-        app:titleText="املا"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleText="املا" />
 
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loading"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/action_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:indeterminate="true"
+        app:indicatorColor="@color/secondary"
+        app:trackThickness="8dp"
         />
-
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/action_bar">
 
-        <LinearLayout
-            android:id="@+id/main_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/main_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Find the right word with these letters"
-                android:textSize="28dp"
-                android:textColor="@color/black"
-                android:layout_marginHorizontal="46dp"
-                android:layout_marginVertical="24dp"
                 android:gravity="center"
-                android:textStyle="bold"
-                />
+                android:orientation="vertical">
 
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:elevation="4dp"
-                android:padding="16dp"
-                android:text="Listen carefully"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                app:cornerRadius="12dp"
-                app:icon="@drawable/volume"
-                app:iconGravity="textStart"
-                app:iconPadding="16dp"
-                app:iconSize="32dp"
-                app:iconTint="@color/yellow"
-
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="out of control with anger or excitement; wild or frenzied."
-                android:textSize="18dp"
-                android:textColor="@color/black"
-                android:layout_marginHorizontal="46dp"
-                android:layout_marginVertical="24dp"
-                android:gravity="center"
-                />
-
-            <!-- EditText with Dashed Border -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/input_field"
-                android:layout_width= "match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                app:strokeColor="@color/black"
-                app:strokeWidth="2dp"
-                app:cardCornerRadius="12dp"
-
-                >
-
-              <RelativeLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:gravity="center"
-                  android:layout_gravity="center"
-                  android:layout_margin="10dp"
-                  >
-                  <com.rhmn.learneng.view.components.DictionsListView
-                      android:id="@+id/selectedDictionsListView"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_centerInParent="true"
-                      />
-                  <TextView
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:gravity="center"
-                      android:textSize="24sp"
-                      android:textColor="@color/black"
-                      tool:text="W"
-                      android:textStyle="bold"
-                      android:layout_margin="4dp"
-                      android:layout_centerInParent="true"
-                      android:visibility="invisible"
-                      android:clickable="false"
-                      />
-              </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.rhmn.learneng.view.components.DictionsListView
-                android:id="@+id/unselectedDictionsListView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="16dp"
-                android:minHeight="46dp" />
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/check_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/secondary"
-                android:text="Check"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:cornerRadius="12dp"
-                android:padding="12dp"
-                android:layout_marginHorizontal="52dp"
-                />
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="32dp">
-
-                <ImageButton
-                    android:id="@+id/perv_btn"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:background="@drawable/round_button"
-                    android:padding="8dp"
-                    android:src="@drawable/baseline_arrow_back_ios_new_24"
-                    app:tint="@color/white" />
+                    android:layout_marginHorizontal="46dp"
+                    android:layout_marginVertical="24dp"
+                    android:gravity="center"
+                    android:text="Find the right word with these letters"
+                    android:textColor="@color/black"
+                    android:textSize="28dp"
+                    android:textStyle="bold" />
 
 
-                <ImageButton
-                    android:id="@+id/next_btn"
+                <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:background="@drawable/round_button"
-                    android:padding="8dp"
-                    android:src="@drawable/baseline_arrow_forward_ios_24"
-                    app:tint="@color/white" />
-            </RelativeLayout>
+                    android:backgroundTint="@color/white"
+                    android:elevation="4dp"
+                    android:padding="16dp"
+                    android:text="Listen carefully"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:cornerRadius="12dp"
+                    app:icon="@drawable/volume"
+                    app:iconGravity="textStart"
+                    app:iconPadding="16dp"
+                    app:iconSize="32dp"
+                    app:iconTint="@color/yellow"
 
-            <com.rhmn.learneng.view.components.NumericListView
-                android:id="@+id/numericListView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                    />
 
-                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="46dp"
+                    android:layout_marginVertical="24dp"
+                    android:gravity="center"
+                    android:text="out of control with anger or excitement; wild or frenzied."
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+                <!-- EditText with Dashed Border -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/input_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:strokeColor="@color/black"
+                    app:strokeWidth="2dp"
+
+                    >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:gravity="center">
+
+                        <com.rhmn.learneng.view.components.DictionsListView
+                            android:id="@+id/selectedDictionsListView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_margin="4dp"
+                            android:clickable="false"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:visibility="invisible"
+                            tool:text="W" />
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <com.rhmn.learneng.view.components.DictionsListView
+                    android:id="@+id/unselectedDictionsListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:minHeight="46dp" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/check_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="52dp"
+                    android:backgroundTint="@color/secondary"
+                    android:padding="12dp"
+                    android:text="Check"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="12dp" />
+
+
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginHorizontal="16dp"-->
+<!--                    android:layout_marginTop="32dp">-->
+
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/perv_btn"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentStart="true"-->
+<!--                        android:background="@drawable/round_button"-->
+<!--                        android:padding="8dp"-->
+<!--                        android:src="@drawable/baseline_arrow_back_ios_new_24"-->
+<!--                        app:tint="@color/white" />-->
+
+
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/next_btn"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentEnd="true"-->
+<!--                        android:background="@drawable/round_button"-->
+<!--                        android:padding="8dp"-->
+<!--                        android:src="@drawable/baseline_arrow_forward_ios_24"-->
+<!--                        app:tint="@color/white" />-->
+<!--                </RelativeLayout>-->
+
+                <com.rhmn.learneng.view.components.NumericListView
+                    android:id="@+id/numericListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+
+                    />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
 
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

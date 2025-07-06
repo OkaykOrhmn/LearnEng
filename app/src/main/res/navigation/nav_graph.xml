@@ -29,11 +29,6 @@
             android:name="dayId"
             android:defaultValue="0"
             app:argType="integer" />
-        <argument
-            android:name="dayType"
-            android:defaultValue="DAY_1"
-            app:argType="com.rhmn.learneng.data.model.DayType"
-            app:nullable="false" />
 
         <action
             android:id="@+id/action_day_to_pronounciationFragment"
@@ -56,15 +51,30 @@
         android:id="@+id/wordFragment"
         android:name="com.rhmn.learneng.view.fragments.WordFragment"
         android:label="fragment_word"
-        tools:layout="@layout/fragment_word" />
+        tools:layout="@layout/fragment_word">
+        <argument
+            android:name="dayId"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/pronounciationFragment"
         android:name="com.rhmn.learneng.view.fragments.PronounciationFragment"
-        android:label="PronounciationFragment" />
+        android:label="PronounciationFragment">
+        <argument
+            android:name="dayId"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/dictionsFragment"
         android:name="com.rhmn.learneng.view.fragments.DictionsFragment"
-        android:label="DictionsFragment" />
+        android:label="DictionsFragment">
+        <argument
+            android:name="dayId"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 
     <fragment
         android:id="@+id/quizFragment"
@@ -75,11 +85,15 @@
             android:defaultValue="GRAMMAR"
             app:argType="com.rhmn.learneng.data.model.QuizType"
             app:nullable="false" />
+        <argument
+            android:name="dayId"
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <dialog
         android:id="@+id/quizFinishDialog"
         android:name="com.rhmn.learneng.view.QuizFinishDialog"
-        android:label="QuizFinishDialog" >
+        android:label="QuizFinishDialog">
         <argument
             android:name="score"
             app:argType="com.rhmn.learneng.data.model.Score"
@@ -94,5 +108,10 @@
     <fragment
         android:id="@+id/listeningFragment"
         android:name="com.rhmn.learneng.view.fragments.ListeningFragment"
-        android:label="ListeningFragment" />
+        android:label="ListeningFragment">
+        <argument
+            android:name="dayId"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 </navigation>

@@ -5,36 +5,37 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
+import androidx.room.Room
 import com.rhmn.learneng.R
+import com.rhmn.learneng.data.AppDatabase
+import com.rhmn.learneng.data.model.Day
 import com.rhmn.learneng.data.model.DayResult
-import com.rhmn.learneng.data.model.DayStep
-import com.rhmn.learneng.data.model.DayType
-import com.rhmn.learneng.data.model.Days
 import com.rhmn.learneng.data.model.LayoutType
 import com.rhmn.learneng.databinding.ItemDayBinding
 import com.rhmn.learneng.view.fragments.HomeFragmentDirections
-
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 class DaysListView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : MyListView<Days>(context, attrs, defStyleAttr) {
+) : MyListView<Day>(context, attrs, defStyleAttr) {
 
-
-    private var currentItems: List<Days> = emptyList()
-    private var currentClickListener: ((Days) -> Unit)? = null
+    private var currentItems: List<Day> = emptyList()
+    private var currentClickListener: ((Day) -> Unit)? = null
 
     @SuppressLint("SetTextI18n")
     fun setup(
-        items: List<Days>, onClick: (Days) -> Unit, enableScrolling: Boolean = true
+        items: List<Day>,
+        onClick: (Day) -> Unit,
+        enableScrolling: Boolean = true
     ) {
-
-        currentItems = items
-        currentClickListener = onClick
+        this.currentItems = items
+        this.currentClickListener = onClick
         setLayoutType(LayoutType.LINEAR_VERTICAL)
         setItems(
             layoutResId = R.layout.item_day,
@@ -43,129 +44,83 @@ class DaysListView @JvmOverloads constructor(
             onBindViewHolder = { binding, item, _ ->
                 if (binding is ItemDayBinding) {
                     binding.days = item
+                    binding.tvDay.text = "Day ${item.id}"
 
+                    when (item.dayResult) {
+                        DayResult.OPEN -> {
+                            binding.tvStatusIcon.setImageResource(R.drawable.arrow_right)
+                            binding.tvStatus.text = "Start"
+                            val texColor = R.color.white
+                            binding.tvStatus.setTextColor(
+                                ContextCompat.getColor(
+                                    binding.root.context,
+                                    texColor
+                                )
+                            )
+                            binding.tvDay.setTextColor(
+                                ContextCompat.getColor(
+                                    binding.root.context,
+                                    texColor
+                                )
+                            )
+                            binding.card.setCardBackgroundColor(
+                                ContextCompat.getColor(
+                                    binding.root.context,
+                                    R.color.primary
+                                )
+                            )
+                        }
 
-                    setDayStatus(
-                        item.dayStatus.dayResult1,
-                        binding.tvStatus1,
-                        binding.tvStatusIcon1,
-                        binding.tvDay1,
-                        binding.day1
-                    )
-                    setDayStatus(
-                        item.dayStatus.dayResult2,
-                        binding.tvStatus2,
-                        binding.tvStatusIcon2,
-                        binding.tvDay2,
-                        binding.day2
-                    )
-                    setDayStatus(
-                        item.dayStatus.dayResult3,
-                        binding.tvStatus3,
-                        binding.tvStatusIcon3,
-                        binding.tvDay3,
-                        binding.day3
-                    )
+                        DayResult.LOCK -> {
+                            binding.tvStatusIcon.setImageResource(R.drawable.baseline_download_for_offline_24)
+                            binding.tvStatus.text = "Download"
+                            val texColor = R.color.black
+                            binding.tvDay.setTextColor(
+                                ContextCompat.getColor(
+                                    binding.root.context,
+                                    texColor
+                                )
+                            )
+                            binding.tvStatus.setTextColor(
+                                ContextCompat.getColor(
+                                    binding.root.context,
+                                    texColor
+                                )
+                            )
+                            binding.card.setCardBackgroundColor(
+                                ContextCompat.getColor(
+                                    binding.root.context,
+                                    R.color.white
+                                )
+                            )
+                        }
 
-                    binding.day1.setOnClickListener {
-                            val action =
-                                HomeFragmentDirections.actionHomeFragmentToDayOneFragment(dayId = item.id, dayType = DayType.DAY_1)
-                            findNavController().navigate(action)
-
-
+                        DayResult.SUCCESS -> {
+                            binding.tvStatusIcon.setImageResource(R.drawable.tick)
+                            binding.tvStatus.text = "Complete"
+                            binding.tvStatus.setTextColor(
+                                ContextCompat.getColor(
+                                    binding.root.context,
+                                    R.color.success
+                                )
+                            )
+                            binding.card.setCardBackgroundColor(
+                                ContextCompat.getColor(
+                                    binding.root.context,
+                                    R.color.successBack
+                                )
+                            )
+                        }
                     }
-                    binding.day2.setOnClickListener {
-                            val action =
-                                HomeFragmentDirections.actionHomeFragmentToDayOneFragment(dayId = item.id, dayType = DayType.DAY_2)
-                            findNavController().navigate(action)
-
-
-
-                    }
-                    binding.day3.setOnClickListener {
-                            val action =
-                                HomeFragmentDirections.actionHomeFragmentToDayOneFragment(dayId = item.id, dayType = DayType.DAY_3)
-                            findNavController().navigate(action)
-
-
-
-                    }
-                    val c = (item.id + 1) * 3;
-                    binding.tvDay1.text = "Day ${c - 2}"
-                    binding.tvDay2.text = "Day ${c - 1}"
-                    binding.tvDay3.text = "Day $c"
                 }
             },
             enableScrolling = enableScrolling
         )
     }
 
-
-    fun setDayStatus(
-        itemType: DayResult,
-        statusTextView: TextView,
-        statusIconImageView: ImageView,
-        dayText: TextView,
-        dayView: CardView
-    ) {
-        val text: String
-        val icon: Int
-        val textColor: Int
-        val backColor: Int
-
-        when (itemType) {
-            DayResult.SUCCESS -> {
-                text = "Done"
-                icon = R.drawable.tick
-                textColor = R.color.success
-                backColor = R.color.successBack
-            }
-//
-//            DayResult.FAIL -> {
-//                text = "Missed"
-//                icon = R.drawable.close
-//                textColor = R.color.fail
-//                backColor = R.color.failBack
-//            }
-
-//            DayResult.LOCK -> {
-//                text = ""
-//                statusTextView.visibility = View.GONE
-//                icon = R.drawable.lock
-//                textColor = R.color.darkGray
-//                backColor = R.color.white
-//
-//                val params = statusIconImageView.layoutParams as RelativeLayout.LayoutParams
-//                params.removeRule(RelativeLayout.CENTER_IN_PARENT)
-//                params.addRule(RelativeLayout.ALIGN_PARENT_END)
-//                params.addRule(RelativeLayout.CENTER_VERTICAL)
-//                statusIconImageView.layoutParams = params
-//            }
-
-            DayResult.OPEN -> {
-                text = "Start"
-                icon = 0
-                textColor = R.color.white
-                backColor = R.color.primary
-            }
-        }
-
-
-        statusTextView.text = text
-        statusTextView.setTextColor(ContextCompat.getColor(dayView.context, textColor))
-        dayText.setTextColor(ContextCompat.getColor(dayView.context, textColor))
-        dayView.setCardBackgroundColor(ContextCompat.getColor(dayView.context, backColor))
-
-        if (icon != 0) {
-            statusIconImageView.setImageResource(icon)
-
-        } else {
-            statusIconImageView.visibility = View.GONE
-        }
-    }
-
-    override fun updateItems(newItems: List<Days>) {
+    override fun updateItems(newItems: List<Day>) {
         this.currentItems = newItems
         super.updateItems(newItems)
     }
+
 }

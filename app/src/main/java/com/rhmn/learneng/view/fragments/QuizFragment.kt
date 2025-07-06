@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.rhmn.learneng.data.model.OptionStatus
+import com.rhmn.learneng.data.model.Quiz
 import com.rhmn.learneng.data.model.QuizType
 import com.rhmn.learneng.data.model.Score
 import com.rhmn.learneng.databinding.FragmentQuizBinding
@@ -27,7 +29,7 @@ class QuizFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: QuizViewModel by viewModels()
-    private val dayStatusViewModel: DayViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -44,13 +46,11 @@ class QuizFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val dayId = parentFragment?.arguments?.let { args ->
-            DayFragmentArgs.fromBundle(args).dayId
-        } ?: 0
-        val quizType = QuizFragmentArgs.fromBundle(requireArguments()).quizType
-        viewModel.dayId = dayId
 
-        dayStatusViewModel.initialize(requireContext())
+        val args = QuizFragmentArgs.fromBundle(requireArguments())
+        val quizType = args.quizType
+        val dayId = args.dayId
+
 
         when (quizType) {
             QuizType.READING -> {
@@ -66,12 +66,13 @@ class QuizFragment : Fragment() {
             }
         }
 
-        viewModel.fetchQuiz(requireContext(), quizType)
+        viewModel.fetchQuiz(requireContext(), dayId, quizType)
 
         viewModel.readingItem.observe(viewLifecycleOwner) {
             if (it == null) {
                 binding.readingSection.visibility = View.GONE
-                (binding.mainContainer.layoutParams as ViewGroup.MarginLayoutParams).topMargin = (64f  * resources.displayMetrics.density).toInt()
+                (binding.mainContainer.layoutParams as ViewGroup.MarginLayoutParams).topMargin =
+                    (64f * resources.displayMetrics.density).toInt()
                 return@observe
             }
             binding.readingTitle.text = it.title
@@ -84,13 +85,19 @@ class QuizFragment : Fragment() {
             if (!it) {
                 binding.stepView.setCurrentStep(1)
                 binding.stepView.setStepCount(viewModel.quizList.value!!.size)
-
+                val item =
+                    viewModel.quizList.value?.get(viewModel.quizId.value ?: 0) ?: return@observe
+                updateUi(item)
             }
         }
 
 
         viewModel.quizList.observe(viewLifecycleOwner) {
+            val item =
+                viewModel.quizList.value?.get(viewModel.quizId.value ?: 0)
+            if (item != null) updateUi(item)
             if (viewModel.quizList.value!!.all { q -> q.userAnswer != null }) {
+                binding.againBtn.visibility = View.VISIBLE
                 val cAnswers = viewModel.quizList.value!!.count { q -> q.answer == q.userAnswer }
                 val wAnswers = viewModel.quizList.value!!.count { q -> q.answer != q.userAnswer }
                 val total = viewModel.quizList.value!!.size
@@ -110,15 +117,19 @@ class QuizFragment : Fragment() {
             }
         }
 
-
-
+        binding.againBtn.setOnClickListener {
+            binding.againBtn.visibility = View.GONE
+            viewModel.clearAllUserAnswers(requireContext())
+        }
         binding.pervBtn.setOnClickListener {
+            if (!binding.pervBtn.isEnabled) return@setOnClickListener
             if (viewModel.quizId.value != 0) {
                 viewModel.decreaseId()
             }
         }
 
         binding.nextBtn.setOnClickListener {
+            if (!binding.nextBtn.isEnabled) return@setOnClickListener
             if (viewModel.quizId.value != viewModel.quizList.value!!.size - 1) {
                 viewModel.increaseId()
             }
@@ -137,76 +148,84 @@ class QuizFragment : Fragment() {
 
         viewModel.quizId.observe(viewLifecycleOwner) { id ->
             binding.stepView.setCurrentStep(id + 1)
-            val item = viewModel.quizList.value!![id]
-            binding.questionText.text = item.question
-            val items =
-                item.options.mapIndexed { index, opt ->
-                    var optionStatus = OptionStatus.INIT
-                    if(item.userAnswer!=null){
-                        if(opt == item.answer){
-                            optionStatus = OptionStatus.CORRECT
-                        }
-                        if(opt == item.userAnswer && item.userAnswer !=item.answer){
-                            optionStatus = OptionStatus.WRONG
-                        }
-                    }
-                    Triple(index, opt, optionStatus)
-                }
-                    .toList()
-            binding.optionsListView.setup(
-                items = items,
-                onClick = { i ->
-                    binding.optionsListView.setEnableClick(false)
-                    viewModel.updateQuizField(i.second)
-                    onItemClick()
-
-                },
-            )
-            binding.optionsListView.setEnableClick(item.userAnswer == null)
-            binding.pervBtn.visibility =
-                if (id == 0) View.GONE else View.VISIBLE
-            binding.nextBtn.visibility =
-                if (id == viewModel.quizList.value!!.size - 1) View.GONE else View.VISIBLE
+            viewModel.quizList.value?.getOrNull(id)?.let { updateUi(it) }
         }
     }
 
-    fun onItemClick(){
-        binding.pervBtn.isEnabled = false
-        binding.nextBtn.isEnabled = false
+    fun updateUi(item: Quiz) {
+        binding.questionText.text = item.question
+
+        val items = item.options.mapIndexed { index, opt ->
+            var optionStatus = OptionStatus.INIT
+            if (item.userAnswer != null) {
+                optionStatus = when {
+                    opt == item.answer -> OptionStatus.CORRECT
+                    opt == item.userAnswer -> OptionStatus.WRONG
+                    else -> OptionStatus.INIT
+                }
+            }
+            Triple(index, opt, optionStatus)
+        }
+
+        binding.optionsListView.setup(
+            items = items,
+            onClick = { i ->
+                if (item.userAnswer == null) {
+                    setNavButtonsEnabled(false)
+                    binding.optionsListView.setEnableClick(false)
+                    viewModel.updateQuizField(requireContext(), i.second)
+                    onItemClick(i.second)
+                }
+            }
+        )
+
+        binding.optionsListView.setEnableClick(item.userAnswer == null)
+
+        binding.pervBtn.visibility = if (viewModel.quizId.value == 0) View.GONE else View.VISIBLE
+        binding.nextBtn.visibility =
+            if (viewModel.quizId.value == viewModel.quizList.value!!.size - 1) View.GONE else View.VISIBLE
+    }
+
+
+    private fun onItemClick(userAnswer: String) {
         val item = viewModel.quizList.value!![viewModel.quizId.value!!]
         binding.questionText.text = item.question
         val items =
             item.options.mapIndexed { index, opt ->
                 var optionStatus = OptionStatus.INIT
-                if(item.userAnswer!=null){
-                    if(opt == item.answer){
-                        optionStatus = OptionStatus.CORRECT
-                    }
-                    if(opt == item.userAnswer && item.userAnswer !=item.answer){
-                        optionStatus = OptionStatus.WRONG
-                    }
+                if (opt == item.answer) {
+                    optionStatus = OptionStatus.CORRECT
                 }
+                if (opt == userAnswer && userAnswer != item.answer) {
+                    optionStatus = OptionStatus.WRONG
+                }
+
                 Triple(index, opt, optionStatus)
             }
                 .toList()
         binding.optionsListView.updateItems(items)
 
-        showFeedback(item.userAnswer == item.answer)
+        showFeedback(userAnswer == item.answer)
         if (viewModel.quizId.value != viewModel.quizList.value!!.size - 1) {
             CoroutineScope(Dispatchers.Main).launch {
                 delay(2000)
                 viewModel.increaseId()
+                setNavButtonsEnabled(true)
             }
+        } else {
+            setNavButtonsEnabled(true)
         }
-
-        binding.pervBtn.isEnabled = true
-        binding.nextBtn.isEnabled = true
     }
 
 
     private fun showFeedback(isCorrect: Boolean) {
         val message = if (isCorrect) "درسته" else "اشتباهه"
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setNavButtonsEnabled(enabled: Boolean) {
+        binding.pervBtn.isEnabled = enabled
+        binding.nextBtn.isEnabled = enabled
     }
 
 }

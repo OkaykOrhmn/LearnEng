@@ -6,7 +6,7 @@
 
         <variable
             name="vocab"
-            type="com.rhmn.learneng.data.model.Vocal" />
+            type="com.rhmn.learneng.data.model.Vocabulary" />
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:tool="http://schemas.android.com/tools"

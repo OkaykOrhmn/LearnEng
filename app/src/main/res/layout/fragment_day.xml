@@ -34,33 +34,20 @@
         />
 
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/main_container"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/tvHint"
-    android:paddingHorizontal="46dp"
-    android:layout_marginTop="46dp"
-
-    >
 
     <LinearLayout
 
-        android:id="@+id/day_1"
+        android:id="@+id/main_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tvHint"
+        android:paddingHorizontal="46dp"
+        android:layout_marginTop="46dp"
+        android:gravity="center"
+        android:orientation="vertical"
         >
-
-
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/vocabulary_btn"
@@ -73,6 +60,7 @@
             android:textStyle="bold"
             app:cornerRadius="12dp"
             android:padding="12dp"
+            android:visibility="gone"
             />
 
 
@@ -87,6 +75,8 @@
             android:textStyle="bold"
             app:cornerRadius="12dp"
             android:padding="12dp"
+            android:visibility="gone"
+
             />
 
         <com.google.android.material.button.MaterialButton
@@ -100,24 +90,9 @@
             android:textStyle="bold"
             app:cornerRadius="12dp"
             android:padding="12dp"
+            android:visibility="gone"
+
             />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-
-        android:id="@+id/day_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:visibility="gone"
-        >
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/grammar_btn"
@@ -130,6 +105,8 @@
             android:textStyle="bold"
             app:cornerRadius="12dp"
             android:padding="12dp"
+            android:visibility="gone"
+
             />
 
         <com.google.android.material.button.MaterialButton
@@ -143,6 +120,8 @@
             android:textStyle="bold"
             app:cornerRadius="12dp"
             android:padding="12dp"
+            android:visibility="gone"
+
             />
 
 
@@ -157,24 +136,11 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:cornerRadius="12dp"
-            android:padding="12dp"/>
+            android:padding="12dp"
+            android:visibility="gone"
 
-    </LinearLayout>
+            />
 
-
-    <LinearLayout
-
-        android:id="@+id/day_3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:visibility="gone"
-        >
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/listening_btn"
@@ -186,9 +152,12 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:cornerRadius="12dp"
-            android:padding="12dp"/>
+            android:padding="12dp"
+            android:visibility="gone"
 
-    <com.google.android.material.button.MaterialButton
+            />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/fnl_quiz_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -198,13 +167,14 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:cornerRadius="12dp"
-            android:padding="12dp"/>
+            android:padding="12dp"
+            android:visibility="gone"
 
+            />
 
     </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
 
 
 

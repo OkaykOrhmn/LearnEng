@@ -9,15 +9,21 @@ import android.speech.SpeechRecognizer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rhmn.learneng.data.model.Vocal
-import com.rhmn.learneng.utility.JsonParser
+import androidx.lifecycle.viewModelScope
+import androidx.room.Room
+import com.rhmn.learneng.data.AppDatabase
+import com.rhmn.learneng.data.model.Pronunciation
+import com.rhmn.learneng.data.model.Vocabulary
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 import java.util.Locale
 
 class PronounciationViewModel : ViewModel() {
-    var dayId = 0
 
-    private val _pronunciationList = MutableLiveData<List<Vocal>>()
-    val pronunciationList: LiveData<List<Vocal>> get() = _pronunciationList
+    private val _pronunciationList = MutableLiveData<List<Pronunciation>>()
+    val pronunciationList: LiveData<List<Pronunciation>> get() = _pronunciationList
 
     private val _pronunciationId = MutableLiveData(0)
     val pronunciationId: LiveData<Int> get() = _pronunciationId
@@ -25,83 +31,59 @@ class PronounciationViewModel : ViewModel() {
     private val _loading = MutableLiveData(true)
     val loading: LiveData<Boolean> get() = _loading
 
-    fun updatePronunciationField(newSuccess: Boolean) {
-        val currentList = _pronunciationList.value?.toMutableList() ?: return
-        val index = currentList.indexOfFirst { it.id == _pronunciationId.value }
-        if (index != -1) {
-            val updated = currentList[index].copy(success = newSuccess)
-            currentList[index] = updated
-            _pronunciationList.value = currentList
-        }
-    }
+    private val _recognizedText = MutableLiveData<String>()
+    val recognizedText: LiveData<String> get() = _recognizedText
 
-    fun fetchPronunciationList(context: Context) {
-        val pronunciation = JsonParser.getPronunciationList(context, dayId)
-        _loading.value = false
-        _pronunciationList.value = pronunciation
-    }
-
-    fun increaseId() {
-        _pronunciationId.value = (_pronunciationId.value ?: 0) + 1
-    }
-
-    fun decreaseId() {
-        _pronunciationId.value = (_pronunciationId.value ?: 0) - 1
-    }
-
-    fun setId(id: Int) {
-        _pronunciationId.value = id
-    }
+    private val _isListening = MutableLiveData(false)
+    val isListening: LiveData<Boolean> get() = _isListening
 
     private var speechRecognizer: SpeechRecognizer? = null
-    private val _recognizedText = MutableLiveData<String>()
-    val recognizedText: LiveData<String> = _recognizedText
-    private val _isListening = MutableLiveData<Boolean>()
-    val isListening: LiveData<Boolean> = _isListening
+
+    fun fetchPronunciationList(context: Context, dayId: Int) {
+        _loading.value = true
+        val db = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "my-database").build()
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = db.pronunciationDao().getByDayId(dayId)
+            withContext(Dispatchers.Main) {
+                _pronunciationList.value = list
+                _loading.value = false
+            }
+        }
+    }
+
+    fun increaseId() { _pronunciationId.value = (_pronunciationId.value ?: 0) + 1 }
+    fun decreaseId() { _pronunciationId.value = (_pronunciationId.value ?: 0) - 1 }
+    fun setId(id: Int) { _pronunciationId.value = id }
 
     fun initializeSTT(context: Context) {
-        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(
-                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-            )
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().toString())
-            putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
-        }
-
-        speechRecognizer?.setRecognitionListener(object : RecognitionListener {
-            override fun onReadyForSpeech(params: Bundle?) {
-                _isListening.value = true
+        if (speechRecognizer != null) return // avoid reinit
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context).apply {
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().toString())
+                putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
             }
-
-            override fun onBeginningOfSpeech() {}
-
-            override fun onRmsChanged(rmsdB: Float) {}
-
-            override fun onBufferReceived(buffer: ByteArray?) {}
-
-            override fun onEndOfSpeech() {
-                _isListening.value = false
-            }
-
-            override fun onError(error: Int) {
-                _isListening.value = false
-                _recognizedText.value = "Error: $error"
-            }
-
-            override fun onResults(results: Bundle?) {
-                _isListening.value = false
-                results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.let {
-                    if (it.isNotEmpty()) {
-                        _recognizedText.value = it[0]
+            setRecognitionListener(object : RecognitionListener {
+                override fun onReadyForSpeech(params: Bundle?) { _isListening.postValue(true) }
+                override fun onBeginningOfSpeech() {}
+                override fun onRmsChanged(rmsdB: Float) {}
+                override fun onBufferReceived(buffer: ByteArray?) {}
+                override fun onEndOfSpeech() { _isListening.postValue(false) }
+                override fun onError(error: Int) {
+                    _isListening.postValue(false)
+                    _recognizedText.postValue("Error: $error")
+                }
+                override fun onResults(results: Bundle?) {
+                    _isListening.postValue(false)
+                    results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.firstOrNull()?.let {
+                        _recognizedText.postValue(it)
                     }
                 }
-            }
-
-            override fun onPartialResults(partialResults: Bundle?) {}
-            override fun onEvent(eventType: Int, params: Bundle?) {}
-        })
+                override fun onPartialResults(partialResults: Bundle?) {}
+                override fun onEvent(eventType: Int, params: Bundle?) {}
+            })
+            this@PronounciationViewModel.speechRecognizer = this
+        }
     }
 
     fun startListening() {

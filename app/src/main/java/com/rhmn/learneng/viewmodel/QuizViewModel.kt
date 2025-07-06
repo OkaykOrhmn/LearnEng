@@ -4,16 +4,20 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rhmn.learneng.data.model.Question
+import androidx.lifecycle.viewModelScope
+import androidx.room.Room
+import com.rhmn.learneng.data.AppDatabase
+import com.rhmn.learneng.data.model.Quiz
 import com.rhmn.learneng.data.model.QuizType
 import com.rhmn.learneng.data.model.Reading
-import com.rhmn.learneng.utility.JsonParser
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class QuizViewModel : ViewModel() {
-    var dayId = 0
 
-    private val _quizList = MutableLiveData<List<Question>>()
-    val quizList: LiveData<List<Question>> get() = _quizList
+    private val _quizList = MutableLiveData<List<Quiz>>()
+    val quizList: LiveData<List<Quiz>> get() = _quizList
 
     private val _readingItem = MutableLiveData<Reading?>()
     val readingItem: LiveData<Reading?> get() = _readingItem
@@ -27,35 +31,61 @@ class QuizViewModel : ViewModel() {
     private val _selectedOption = MutableLiveData<Int?>()
     val selectedOption: LiveData<Int?> get() = _selectedOption
 
-    fun fetchQuiz(context: Context, quizType: QuizType) {
-        val days = JsonParser.parseDays(context)!![dayId]
-        when (quizType) {
-            QuizType.READING -> {
-                _readingItem.value = days.reading
-                _quizList.value = days.reading.questions
-            }
+    fun fetchQuiz(context: Context, dayId: Int, quizType: QuizType) {
 
-            QuizType.GRAMMAR -> {
-                _readingItem.value = null
-                _quizList.value = days.grammarQuiz
-            }
+        _loading.value = true
+        val db = Room.databaseBuilder(
+            context.applicationContext,
+            AppDatabase::class.java,
+            "my-database"
+        ).build()
 
-            QuizType.FINAL -> {
-                _readingItem.value = null
-                _quizList.value = days.quiz
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = db.quizDao().getByDayId(dayId, quizType)
+            var reading: Reading? = null
+            if (quizType == QuizType.READING) {
+                reading = db.readingDao().getByDayId(dayId).first()
+            }
+            withContext(Dispatchers.Main) {
+                _quizList.value = list
+                _loading.value = false
+                _readingItem.value = reading
+
             }
         }
-        _loading.value = false
 
     }
 
-    fun updateQuizField(userAnswer: String) {
+    fun updateQuizField(context: Context, userAnswer: String) {
+        val db = Room.databaseBuilder(
+            context.applicationContext,
+            AppDatabase::class.java,
+            "my-database"
+        ).build()
+
         val currentList = _quizList.value?.toMutableList() ?: return
-        val index = currentList.indexOfFirst { it.id == _quizId.value }
-        if (index != -1) {
-            val updated = currentList[index].copy(userAnswer = userAnswer)
-            currentList[index] = updated
-            _quizList.value = currentList
+        val index = _quizId.value ?: return
+        val updated = currentList[index].copy(userAnswer = userAnswer)
+        currentList[index] = updated
+
+        viewModelScope.launch(Dispatchers.IO) {
+            db.quizDao().updateQuiz(updated)
+        }
+        _quizList.value = currentList
+    }
+
+    fun clearAllUserAnswers(context: Context) {
+        val db = Room.databaseBuilder(
+            context.applicationContext,
+            AppDatabase::class.java,
+            "my-database"
+        ).build()
+
+        val clearedList = _quizList.value?.map { it.copy(userAnswer = null) }
+        _quizList.value = clearedList
+
+        viewModelScope.launch(Dispatchers.IO) {
+            db.quizDao().clearAllUserAnswers()
         }
     }
 

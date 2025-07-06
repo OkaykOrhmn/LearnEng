@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.rhmn.learneng.R
 import com.rhmn.learneng.data.model.DayResult
@@ -19,7 +20,7 @@ import com.rhmn.learneng.viewmodel.DayViewModel
 class DayFragment : Fragment() {
     private var _binding: FragmentDayBinding? = null
     private val binding get() = _binding!!
-    private val dayStatusViewModel: DayViewModel by activityViewModels()
+    private val viewModel: DayViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,48 +34,45 @@ class DayFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val args = DayFragmentArgs.fromBundle(requireArguments())
-        dayStatusViewModel.initialize(requireContext())
+        viewModel.fetchLesson(requireContext(), args.dayId)
 
+        binding.actionBar.setTitleText("Day ${args.dayId}")
 
-        when (args.dayType) {
-            DayType.DAY_1 -> {
-                binding.day1.visibility = View.VISIBLE
-                val c = args.dayId + 1
-                binding.actionBar.setTitleText("Day $c")
+        viewModel.lessonItem.observe(viewLifecycleOwner) {
+            if (it.vocabularies != null) {
+                binding.vocabularyBtn.visibility = View.VISIBLE
             }
-            DayType.DAY_2 -> {
-                binding.day2.visibility = View.VISIBLE
-                val c = args.dayId + 1
-                binding.actionBar.setTitleText("Day ${c + 1}")
+            if (it.dictations != null) {
+                binding.dictionsBtn.visibility = View.VISIBLE
             }
-            DayType.DAY_3 -> {
-                binding.day3.visibility = View.VISIBLE
-                val c = args.dayId + 1
-                binding.actionBar.setTitleText("Day ${c + 2}")
+            if (it.pronunciations != null) {
+                binding.pronounciationBtn.visibility = View.VISIBLE
+            }
+            if (it.grammarQuiz != null) {
+                binding.grammarQuizBtn.visibility = View.VISIBLE
+            }
+            if (it.readings != null) {
+                binding.readingBtn.visibility = View.VISIBLE
+            }
+            if (it.listening != null) {
+                binding.listeningBtn.visibility = View.VISIBLE
+            }
+            if (it.finalQuiz != null) {
+                binding.fnlQuizBtn.visibility = View.VISIBLE
             }
         }
-
         binding.vocabularyBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_day_to_wordFragment)
-
+            val action = DayFragmentDirections.actionDayToWordFragment(dayId = args.dayId)
+            findNavController().navigate(action)
         }
-
         binding.dictionsBtn.setOnClickListener {
-            if (binding.dictionsBtn.isEnabled) {
-                findNavController().navigate(R.id.action_day_to_dictionsFragment)
-                dayStatusViewModel.updateDayStatus(
-                    requireContext(),
-                    args.dayId,
-                    newDayResult1 = DayResult.SUCCESS
-                )
-            }
+            val action = DayFragmentDirections.actionDayToDictionsFragment(dayId = args.dayId)
+            findNavController().navigate(action)
         }
 
         binding.pronounciationBtn.setOnClickListener {
-            if (binding.pronounciationBtn.isEnabled) {
-                findNavController().navigate(R.id.action_day_to_pronounciationFragment)
-
-            }
+            val action = DayFragmentDirections.actionDayToPronounciationFragment(dayId = args.dayId)
+            findNavController().navigate(action)
         }
 
         binding.grammarBtn.setOnClickListener {
@@ -84,37 +82,37 @@ class DayFragment : Fragment() {
         binding.grammarQuizBtn.setOnClickListener {
             val quizType = QuizType.GRAMMAR
             val action =
-                DayFragmentDirections.actionDayToQuizFragment(quizType = quizType)
+                DayFragmentDirections.actionDayToQuizFragment(
+                    quizType = quizType,
+                    dayId = args.dayId
+                )
             findNavController().navigate(action)
 
         }
         binding.readingBtn.setOnClickListener {
             val quizType = QuizType.READING
             val action =
-                DayFragmentDirections.actionDayToQuizFragment(quizType = quizType)
+                DayFragmentDirections.actionDayToQuizFragment(
+                    quizType = quizType,
+                    dayId = args.dayId
+                )
             findNavController().navigate(action)
-            dayStatusViewModel.updateDayStatus(
-                requireContext(),
-                args.dayId,
-                newDayResult2 = DayResult.SUCCESS
-            )
         }
 
         binding.listeningBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_dayFragment_to_listeningFragment)
+            val action =
+                DayFragmentDirections.actionDayFragmentToListeningFragment(dayId = args.dayId)
+            findNavController().navigate(action)
         }
 
         binding.fnlQuizBtn.setOnClickListener {
             val quizType = QuizType.FINAL
             val action =
-                DayFragmentDirections.actionDayToQuizFragment(quizType = quizType)
+                DayFragmentDirections.actionDayToQuizFragment(
+                    quizType = quizType,
+                    dayId = args.dayId
+                )
             findNavController().navigate(action)
-            dayStatusViewModel.updateDayStatus(
-                requireContext(),
-                args.dayId,
-                newDayResult3 = DayResult.SUCCESS
-            )
-
         }
     }
 

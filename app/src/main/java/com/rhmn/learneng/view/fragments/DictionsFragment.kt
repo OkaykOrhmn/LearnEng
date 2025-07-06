@@ -6,13 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.rhmn.learneng.R
-import com.rhmn.learneng.data.model.DayResult
-import com.rhmn.learneng.data.model.DayStep
 import com.rhmn.learneng.databinding.FragmentDictionsBinding
-import com.rhmn.learneng.viewmodel.DayViewModel
 import com.rhmn.learneng.viewmodel.DictionsViewModel
 
 class DictionsFragment : Fragment() {
@@ -20,7 +17,6 @@ class DictionsFragment : Fragment() {
     private var _binding: FragmentDictionsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: DictionsViewModel by viewModels()
-    private val dayStatusViewModel: DayViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,123 +34,100 @@ class DictionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val dayId = parentFragment?.arguments?.let { args ->
-            DayFragmentArgs.fromBundle(args).dayId
-        } ?: 0
-        viewModel.dayId = dayId
+        val dayId = DictionsFragmentArgs.fromBundle(requireArguments()).dayId
+        viewModel.fetchDictionList(requireContext(), dayId)
 
-        dayStatusViewModel.initialize(requireContext())
+        setupObservers()
+        setupClicks()
+    }
 
-        viewModel.fetchDictionList(requireContext())
-
-        viewModel.dictionList.observe(viewLifecycleOwner) { list ->
-            viewModel.fillUnselectedDictionLetterList()
-
-            updateNumList(list)
-        }
-
-        viewModel.loading.observe(viewLifecycleOwner) {
-            if (!it) {
-                val numerics = viewModel.dictionList.value!!.mapIndexed() { index, pronunciation ->
-                    Triple(
-                        index,
-                        pronunciation.first == viewModel.dictionId.value,
-                        pronunciation.third
-                    )
-                }
-                binding.numericListView.setup(
-                    numerics,
-                    onClick = { item ->
-                        viewModel.setId(item.first)
-                    },
-                )
-                viewModel.selectedDictionLetterList.value?.let { it1 ->
+    private fun setupObservers() {
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            showLoading(isLoading)
+            if (!isLoading) {
+                updateLists()
+//                updateNavigationButtons(0)
+                viewModel.selectedDictionLetters.value?.let { it1 ->
                     binding.selectedDictionsListView.setup(
                         it1,
                         layout = R.layout.item_word,
                         onClick = { item ->
-                            viewModel.removeItemFromSelectedDictionLetterList(item)
-                            viewModel.addItemToUnelectedDictionLetterList(item)
+                            viewModel.removeFromSelectedLetters(item)
+                            viewModel.addToUnselectedLetters(item)
                         },
                         enableScrolling = false
                     )
                 }
-                viewModel.unselectedDictionLetterList.value?.let { it1 ->
+                viewModel.unselectedDictionLetters.value?.let { it1 ->
                     binding.unselectedDictionsListView.setup(
                         it1,
                         onClick = { item ->
-                            viewModel.removeItemFromUnselectedDictionLetterList(item)
-                            viewModel.addItemToSelectedDictionLetterList(item)
+                            viewModel.removeFromUnselectedLetters(item)
+                            viewModel.addToSelectedLetters(item)
                         },
                         enableScrolling = false
                     )
+
                 }
             }
         }
 
-        binding.checkBtn.setOnClickListener {
-            val selectedLetters = viewModel.selectedDictionLetterList.value
-            val result = selectedLetters!!.joinToString(separator = "")
-            val word = viewModel.dictionList.value!![viewModel.dictionId.value!!].second
+        viewModel.selectedDictionLetters.observe(viewLifecycleOwner) {
+            binding.selectedDictionsListView.updateItems(it)
+        }
+        viewModel.unselectedDictionLetters.observe(viewLifecycleOwner) {
+            binding.unselectedDictionsListView.updateItems(it)
+        }
 
-            if (result == word) {
+        viewModel.dictionId.observe(viewLifecycleOwner) { id ->
+            updateLists()
+//            updateNavigationButtons(id)
+        }
+    }
+
+    private fun setupClicks() {
+        binding.checkBtn.setOnClickListener {
+            val selectedWord = viewModel.selectedDictionLetters.value?.joinToString("") ?: ""
+            val correctWord =
+                viewModel.dictionList.value?.get(viewModel.dictionId.value ?: 0)?.word?.sentence
+                    ?: ""
+
+            if (selectedWord == correctWord) {
                 Toast.makeText(context, "درسته", Toast.LENGTH_SHORT).show()
-                viewModel.updateDictionField(true)
-                if (viewModel.dictionId.value!! < viewModel.dictionList.value!!.size - 1) {
+                if ((viewModel.dictionId.value ?: 0) < (viewModel.dictionList.value?.size
+                        ?: 0) - 1
+                ) {
                     viewModel.increaseId()
-                    viewModel.fillUnselectedDictionLetterList()
+                }else{
+                    findNavController().popBackStack()
                 }
             } else {
                 Toast.makeText(context, "اشتباهه", Toast.LENGTH_SHORT).show()
             }
         }
 
-        viewModel.selectedDictionLetterList.observe(viewLifecycleOwner) {
-            binding.selectedDictionsListView.updateItems(it)
-        }
-        viewModel.unselectedDictionLetterList.observe(viewLifecycleOwner) {
-            binding.unselectedDictionsListView.updateItems(it)
-        }
-
-        binding.pervBtn.setOnClickListener {
-            if (viewModel.dictionId.value != 0) {
-                viewModel.decreaseId()
-                viewModel.fillUnselectedDictionLetterList()
-            }
-        }
-
-        binding.nextBtn.setOnClickListener {
-            if (viewModel.dictionId.value != viewModel.dictionList.value!!.size - 1) {
-                viewModel.increaseId()
-                viewModel.fillUnselectedDictionLetterList()
-            }
-        }
-
-        viewModel.dictionId.observe(viewLifecycleOwner) {
-            viewModel.fillUnselectedDictionLetterList()
-            updateNumList(viewModel.dictionList.value!!)
-
-            if (it == 0) {
-                binding.pervBtn.visibility = View.GONE
-            } else {
-                binding.pervBtn.visibility = View.VISIBLE
-            }
-
-            if (it == viewModel.dictionList.value!!.size - 1) {
-                binding.nextBtn.visibility = View.GONE
-            } else {
-                binding.nextBtn.visibility = View.VISIBLE
-            }
-        }
-
+//        binding.pervBtn.setOnClickListener {
+//            viewModel.decreaseId()
+//        }
+//
+//        binding.nextBtn.setOnClickListener {
+//            viewModel.increaseId()
+//        }
 
     }
 
-    fun updateNumList(list: List<Triple<Int, String, Boolean>>) {
-        val numerics = list.mapIndexed { index, it ->
-            Triple(index, it.first == viewModel.dictionId.value, it.third)
-        }
-        binding.numericListView.updateItems(numerics)
+    private fun updateLists() {
+        viewModel.initializeLetterLists()
     }
 
+    private fun showLoading(isLoading: Boolean) {
+        binding.loading.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.mainContainer.visibility = if (isLoading) View.GONE else View.VISIBLE
+    }
+
+//    private fun updateNavigationButtons(id: Int) {
+//        val total = viewModel.dictionList.value?.size ?: 0
+//        binding.pervBtn.visibility = if (id <= 0) View.GONE else View.VISIBLE
+//        binding.nextBtn.visibility = if (id >= total - 1) View.GONE else View.VISIBLE
+//    }
 }
